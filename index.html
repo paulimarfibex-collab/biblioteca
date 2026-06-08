@@ -7,16 +7,18 @@
 
 <style>
 :root {
-    --brand-burgundy: #881337;
-    --brand-burgundy-hover: #4c0519;
-    --primary: #2563eb;
-    --bg-main: #f8fafc;
-    --bg-card: #ffffff;
-    --text-main: #1e293b;
-    --text-muted: #64748b;
-    --border: #e2e8f0;
-    --success: #10b981;
-    --danger: #ef4444;
+    /* Paleta estricta Azul y Blanco */
+    --brand-blue: #1e40af;       /* Azul profundo corporativo */
+    --brand-blue-hover: #1e3a8a; /* Azul más oscuro para hover */
+    --primary: #3b82f6;          /* Azul brillante primario */
+    --bg-main: #ffffff;          /* Fondo principal blanco */
+    --bg-section: #eff6ff;       /* Fondo azul muy claro para diferenciar secciones */
+    --bg-card: #ffffff;          /* Fondo de tarjetas blanco */
+    --text-main: #0f172a;        /* Texto oscuro casi negro/azul */
+    --text-muted: #475569;       /* Texto gris azulado */
+    --border: #bfdbfe;           /* Bordes en tono azul claro */
+    --success: #059669;
+    --danger: #dc2626;
 }
 
 * {
@@ -32,34 +34,36 @@ body {
     line-height: 1.5;
 }
 
-/* Barra de aviso superior */
+/* Barra de aviso superior - Sección 1 */
 .top-notice {
-    background: #7dd3fc;
-    color: #0369a1;
+    background: var(--brand-blue);
+    color: #ffffff;
     text-align: center;
-    padding: 8px 20px;
+    padding: 10px 20px;
     font-size: 0.85rem;
     font-weight: 600;
     letter-spacing: 0.5px;
+    border-bottom: 1px solid #1e3a8a;
 }
 
-/* Navegación Estilo Premium */
+/* Navegación - Sección 2 */
 .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 18px 8%;
-    background: white;
-    border-bottom: 1px solid var(--border);
+    background: var(--bg-main);
+    border-bottom: 2px solid var(--border);
     position: sticky;
     top: 0;
     z-index: 100;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
 .logo {
     font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--brand-burgundy);
+    font-weight: 800;
+    color: var(--brand-blue);
     text-decoration: none;
     letter-spacing: -0.5px;
 }
@@ -75,7 +79,7 @@ body {
     color: var(--text-muted);
     text-decoration: none;
     font-size: 0.95rem;
-    font-weight: 500;
+    font-weight: 600;
     transition: color 0.2s;
     display: flex;
     align-items: center;
@@ -83,7 +87,7 @@ body {
 }
 
 .nav-links a:hover {
-    color: var(--text-main);
+    color: var(--brand-blue);
 }
 
 .nav-links .dropdown-arrow {
@@ -91,27 +95,29 @@ body {
     opacity: 0.7;
 }
 
-.btn-burgundy {
-    background: var(--brand-burgundy);
+.btn-blue {
+    background: var(--brand-blue);
     color: white !important;
     padding: 10px 24px;
     border-radius: 6px;
     font-weight: 600;
     border: none;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: background 0.2s, transform 0.1s;
+    box-shadow: 0 4px 6px -1px rgba(30, 64, 175, 0.2);
 }
 
-.btn-burgundy:hover {
-    background: var(--brand-burgundy-hover);
+.btn-blue:hover {
+    background: var(--brand-blue-hover);
+    transform: translateY(-1px);
 }
 
-/* Héroe de la página (Landing Split Layout) */
+/* Héroe de la página - Sección 3 (Fondo Blanco) */
 .hero {
     display: grid;
     grid-template-columns: 1.1fr 0.9fr;
-    min-height: 75vh;
-    background: white;
+    min-height: 70vh;
+    background: var(--bg-main);
     position: relative;
     overflow: hidden;
 }
@@ -125,25 +131,30 @@ body {
 }
 
 .hero-tag {
-    color: #3b82f6;
-    font-size: 0.8rem;
+    color: var(--primary);
+    font-size: 0.85rem;
     font-weight: 700;
     letter-spacing: 2px;
     text-transform: uppercase;
     margin-bottom: 20px;
+    display: inline-block;
+    padding: 4px 12px;
+    background: var(--bg-section);
+    border-radius: 20px;
+    width: max-content;
 }
 
 .hero-title {
     font-size: 3.4rem;
-    font-weight: 700;
-    color: #111827;
+    font-weight: 800;
+    color: var(--text-main);
     line-height: 1.15;
     margin-bottom: 25px;
     letter-spacing: -1px;
 }
 
 .hero-title span {
-    color: var(--brand-burgundy);
+    color: var(--brand-blue);
 }
 
 .hero-desc {
@@ -154,34 +165,12 @@ body {
     max-width: 520px;
 }
 
-.hero-buttons {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-}
-
-.btn-outline {
-    background: transparent;
-    color: #2563eb;
-    border: 1px solid #cbd5e1;
-    padding: 14px 28px;
-    border-radius: 6px;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background 0.2s;
-}
-
-.btn-outline:hover {
-    background: #f8fafc;
-}
-
-/* Indicador de scroll de ratón decorativo */
+/* Indicador de scroll */
 .scroll-indicator {
     margin-top: 50px;
     width: 22px;
     height: 36px;
-    border: 2px solid #cbd5e1;
+    border: 2px solid var(--border);
     border-radius: 20px;
     position: relative;
 }
@@ -193,16 +182,17 @@ body {
     transform: translateX(-50%);
     width: 4px;
     height: 8px;
-    background: #cbd5e1;
+    background: var(--primary);
     border-radius: 20px;
 }
 
-/* Parte derecha del Héroe: Imagen con máscara de desvanecimiento hacia el blanco */
+/* Parte derecha del Héroe: Imagen en escala de azules/grises */
 .hero-right {
     position: relative;
     background-image: url('https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=1200');
     background-size: cover;
     background-position: center 20%;
+    filter: grayscale(40%) sepia(20%) hue-rotate(180deg); /* Tinte azulado a la imagen */
 }
 
 .hero-right::before {
@@ -212,11 +202,12 @@ body {
     background: linear-gradient(to right, #ffffff 0%, rgba(255, 255, 255, 0.9) 8%, rgba(255, 255, 255, 0) 45%);
 }
 
-/* Sección del Panel de Aplicación de la Biblioteca */
+/* Sección del Panel de Aplicación - Sección 4 (Fondo Azul Claro) */
 .app-section {
-    background: var(--bg-main);
-    padding: 60px 0;
-    border-top: 1px solid var(--border);
+    background: var(--bg-section);
+    padding: 80px 0;
+    border-top: 2px solid var(--border);
+    box-shadow: inset 0 10px 15px -3px rgba(0, 0, 0, 0.03);
 }
 
 .container {
@@ -225,32 +216,45 @@ body {
     margin: auto;
 }
 
-/* Drag and Drop minimalista integrado */
+.section-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.section-header h2 {
+    color: var(--brand-blue);
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+/* Zona de Carga (Drag & Drop) */
 .upload-section {
     background: var(--bg-card);
-    padding: 40px 30px;
+    padding: 50px 30px;
     border-radius: 16px;
-    margin-bottom: 35px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
-    border: 2px dashed var(--border);
+    margin-bottom: 40px;
+    box-shadow: 0 10px 25px rgba(30, 64, 175, 0.05);
+    border: 2px dashed var(--primary);
     text-align: center;
     transition: all 0.3s ease;
 }
 
 .upload-section.dragover {
-    border-color: var(--primary);
-    background: #eff6ff;
+    border-color: var(--brand-blue);
+    background: #dbeafe;
+    transform: scale(1.02);
 }
 
-.upload-section h2 {
-    font-size: 1.3rem;
-    margin-bottom: 8px;
+.upload-section h3 {
+    font-size: 1.5rem;
+    color: var(--brand-blue);
+    margin-bottom: 10px;
 }
 
 .upload-section p {
     color: var(--text-muted);
-    font-size: 0.95rem;
-    margin-bottom: 20px;
+    font-size: 1rem;
+    margin-bottom: 25px;
 }
 
 .upload-btn-wrapper {
@@ -261,17 +265,20 @@ body {
 
 .btn-upload {
     border: none;
-    background: var(--text-main);
+    background: var(--brand-blue);
     color: white;
-    padding: 12px 28px;
+    padding: 14px 32px;
     border-radius: 8px;
     font-weight: 600;
+    font-size: 1rem;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 6px rgba(30, 64, 175, 0.3);
 }
 
 .btn-upload:hover {
-    background: #0f172a;
+    background: var(--brand-blue-hover);
+    box-shadow: 0 6px 12px rgba(30, 64, 175, 0.4);
 }
 
 .upload-section input[type=file] {
@@ -284,12 +291,17 @@ body {
     cursor: pointer;
 }
 
-/* Controles de búsqueda */
+/* Controles de búsqueda y estadísticas */
 .controls-bar {
     display: flex;
     gap: 15px;
     align-items: center;
     margin-bottom: 30px;
+    background: var(--bg-card);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(30, 64, 175, 0.05);
+    border: 1px solid var(--border);
 }
 
 .search-wrapper {
@@ -299,39 +311,41 @@ body {
 .search {
     width: 100%;
     padding: 14px 18px;
-    border: 1px solid var(--border);
-    border-radius: 10px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
     font-size: 1rem;
-    background: var(--bg-card);
+    background: var(--bg-main);
+    color: var(--text-main);
     outline: none;
-    transition: border 0.2s;
+    transition: all 0.2s;
 }
 
 .search:focus {
     border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }
 
 .stats-counter {
-    background: var(--bg-card);
-    padding: 14px 22px;
-    border-radius: 10px;
+    background: var(--bg-section);
+    padding: 14px 24px;
+    border-radius: 8px;
     border: 1px solid var(--border);
-    font-weight: 600;
-    color: var(--text-muted);
+    font-weight: 700;
+    color: var(--brand-blue);
 }
 
 /* Grid de Libros / Documentos */
 .library {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 25px;
 }
 
 .card {
     background: var(--bg-card);
-    border-radius: 14px;
+    border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    box-shadow: 0 4px 15px rgba(30, 64, 175, 0.05);
     border: 1px solid var(--border);
     display: flex;
     flex-direction: column;
@@ -339,68 +353,75 @@ body {
 }
 
 .card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.06);
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(30, 64, 175, 0.15);
+    border-color: var(--primary);
 }
 
 .card-header {
-    padding: 18px;
-    font-weight: 600;
+    padding: 20px;
+    font-weight: 700;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     border-bottom: 1px solid var(--border);
-    background: #fafafa;
+    background: var(--bg-main);
+    color: var(--brand-blue);
 }
 
-.file-icon { font-size: 1.3rem; }
+.file-icon { font-size: 1.5rem; }
 .file-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; }
 
 .card-body {
-    padding: 18px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     flex-grow: 1;
+    background: #fafbfc;
 }
 
 .file-info {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     color: var(--text-muted);
-    margin-bottom: 15px;
+    margin-bottom: 20px;
+    background: var(--bg-main);
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
 }
 
 .buttons {
     display: flex;
-    gap: 8px;
+    gap: 10px;
 }
 
 .btn {
     border: none;
-    padding: 10px;
+    padding: 12px;
     border-radius: 6px;
     cursor: pointer;
     font-weight: 600;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     flex: 1;
     text-align: center;
-    transition: background 0.2s;
+    transition: all 0.2s;
 }
 
-.view-btn { background: #eff6ff; color: var(--primary); }
-.view-btn:hover { background: #dbeafe; }
-.download-btn { background: #f0fdf4; color: var(--success); }
-.download-btn:hover { background: #dcfce7; }
-.delete-btn { background: #fef2f2; color: var(--danger); flex: none; width: 38px; }
-.delete-btn:hover { background: #fee2e2; }
+.view-btn { background: var(--primary); color: white; }
+.view-btn:hover { background: var(--brand-blue); }
+.download-btn { background: #e0f2fe; color: var(--brand-blue); border: 1px solid var(--border); }
+.download-btn:hover { background: #bae6fd; }
+.delete-btn { background: #fee2e2; color: var(--danger); flex: none; width: 45px; border: 1px solid #fecaca; }
+.delete-btn:hover { background: #fca5a5; color: white; }
 
 /* Modal Corporativo */
 .modal {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(15, 23, 42, 0.6);
-    backdrop-filter: blur(4px);
+    background: rgba(15, 23, 42, 0.8); /* Fondo oscuro más opaco */
+    backdrop-filter: blur(5px);
     justify-content: center;
     align-items: center;
     z-index: 1000;
@@ -409,274 +430,66 @@ body {
 .modal-content {
     background: var(--bg-card);
     width: 90%;
-    max-width: 950px;
-    height: 80vh;
-    border-radius: 16px;
+    max-width: 1000px;
+    height: 85vh;
+    border-radius: 12px;
     overflow: hidden;
     position: relative;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+    border: 2px solid var(--border);
 }
 
 .modal-header {
-    padding: 15px 25px;
-    border-bottom: 1px solid var(--border);
+    padding: 20px 30px;
+    border-bottom: 2px solid var(--border);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    background: var(--brand-blue);
+    color: white;
+}
+
+.modal-header strong {
+    font-size: 1.1rem;
+    letter-spacing: 0.5px;
 }
 
 .close {
-    font-size: 24px;
+    font-size: 28px;
     cursor: pointer;
-    color: var(--text-muted);
+    color: white;
+    opacity: 0.8;
+    transition: opacity 0.2s;
 }
 
-.close:hover { color: var(--danger); }
+.close:hover { opacity: 1; color: #fca5a5; }
 
-.viewer-body { flex-grow: 1; background: #f1f5f9; }
+.viewer-body { flex-grow: 1; background: var(--bg-section); }
 .viewer { width: 100%; height: 100%; border: none; }
-.text-view { padding: 25px; overflow: auto; height: 100%; white-space: pre-wrap; background: white; }
+.text-view { padding: 30px; overflow: auto; height: 100%; white-space: pre-wrap; background: white; font-family: monospace; font-size: 1rem; color: var(--text-main); }
 
 .empty {
     grid-column: 1 / -1;
     text-align: center;
-    color: var(--text-muted);
-    padding: 50px;
+    color: var(--brand-blue);
+    padding: 60px;
+    background: var(--bg-card);
+    border-radius: 12px;
+    border: 2px dashed var(--border);
+    font-weight: 600;
+    font-size: 1.1rem;
 }
 </style>
 </head>
 <body>
 
-<!-- Alerta Superior Descriptiva -->
 <div class="top-notice">
-    Sube y gestiona tus documentos interactivos en tiempo real
+    Sube y gestiona tus documentos interactivos en tiempo real con nuestra plataforma
 </div>
 
-<!-- Menú Superior de Navegación -->
 <nav class="navbar">
     <a href="#" class="logo">Biblioteca Digital</a>
     <ul class="nav-links">
-        <li><a href="#">Archivos Disponibles <span class="dropdown-arrow">▼</span></a></li> 
-           
-        <li><a href="#">Ayuda <span class="dropdown-arrow">▼</span></a></li>
-        <li><a href="#workspace" class="btn-burgundy">Suscríbase</a></li>
-    </ul>
-</nav>
-  <!-- Filtros y estadísticas -->
-        <div class="controls-bar">
-            <div class="search-wrapper">
-                <input type="text" id="search" class="search" placeholder="Buscar títulos o documentos...">
-            </div>
-            <div id="statsCounter" class="stats-counter">Documentos: 0</div>
-        </div>
-
-<!-- Sección Principal Hero (Inspirada fielmente en la imagen) -->
-<section class="hero">
-    <div class="hero-left">
-        <div class="hero-tag">La mayor biblioteca digital</div>
-             <!-- Zona Carga (Drag & Drop Integrado) -->
-        <div class="upload-section" id="dropZone">
-            <h2>Subir Archivos a la Biblioteca</h2>
-            <p>Arrastra tus documentos académicos aquí o haz clic para localizarlos</p>
-            <div class="upload-btn-wrapper">
-                <button class="btn-upload">Seleccionar Archivos</button>
-                <input type="file" id="fileInput" multiple>
-            </div>
-        </div>
-        <div class="hero-buttons">
-            <a href="#workspace" class="btn-burgundy" style="padding: 14px 28px; text-decoration: none;">Suscríbase</a>            
-        </div>
-        <div class="scroll-indicator"></div>
-    </div>
-    <div class="hero-right"></div>
-</section>
-
-<!-- Panel de Aplicación (Código Operativo) -->
-<section class="app-section" id="workspace">
-    <div class="container">  
-      
-        <!-- Rejilla de Documentos -->
-        <div id="library" class="library">
-            <div class="empty">No hay documentos en el catálogo actual.</div>
-        </div>
-
-    </div>
-</section>
-
-<!-- Visor Integrado -->
-<div class="modal" id="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <strong id="modalTitle">Vista Previa Documental</strong>
-            <span class="close" onclick="closeViewer()">&times;</span>
-        </div>
-        <div class="viewer-body" id="viewerContainer"></div>
-    </div>
-</div>
-
-<script>
-/* Toda la lógica funcional nativa original de prueba.html se conserva de forma robusta e intacta */
-const fileInput = document.getElementById("fileInput");
-const dropZone = document.getElementById("dropZone");
-const library = document.getElementById("library");
-const search = document.getElementById("search");
-const statsCounter = document.getElementById("statsCounter");
-
-let files = [];
-
-// Drag & Drop Handlers
-['dragenter', 'dragover'].forEach(eventName => {
-    dropZone.addEventListener(eventName, (e) => {
-        e.preventDefault();
-        dropZone.classList.add('dragover');
-    }, false);
-});
-
-['dragleave', 'drop'].forEach(eventName => {
-    dropZone.addEventListener(eventName, (e) => {
-        e.preventDefault();
-        dropZone.classList.remove('dragover');
-    }, false);
-});
-
-dropZone.addEventListener('drop', (e) => {
-    handleFiles(e.dataTransfer.files);
-});
-
-fileInput.addEventListener("change", function() {
-    handleFiles(this.files);
-    this.value = "";
-});
-
-search.addEventListener("input", renderLibrary);
-
-function handleFiles(incomingFiles) {
-    [...incomingFiles].forEach(file => {
-        const url = URL.createObjectURL(file);
-        files.push({
-            id: Date.now() + Math.random().toString(36).substr(2, 5),
-            name: file.name,
-            size: (file.size / 1024).toFixed(2) + " KB",
-            type: file.type,
-            file: file,
-            url: url
-        });
-    });
-    renderLibrary();
-}
-
-function getFileMeta(filename, type) {
-    const ext = filename.split('.').pop().toLowerCase();
-    if (type.includes("pdf") || ext === 'pdf') return { icon: "📕", label: "PDF Académico" };
-    if (type.startsWith("image/")) return { icon: "🖼️", label: "Imagen / Gráfico" };
-    if (type.startsWith("video/")) return { icon: "🎬", label: "Multimedia Video" };
-    if (type.includes("text") || ext === 'txt') return { icon: "📄", label: "Texto Plano" };
-    return { icon: "📘", label: "Documento General" };
-}
-
-function deleteFile(id) {
-    const index = files.findIndex(f => f.id === id);
-    if (index !== -1) {
-        URL.revokeObjectURL(files[index].url);
-        files.splice(index, 1);
-        renderLibrary();
-    }
-}
-
-function renderLibrary() {
-    const term = search.value.toLowerCase();
-    const filtered = files.filter(f => f.name.toLowerCase().includes(term));
-
-    statsCounter.textContent = `Documentos: ${filtered.length}`;
-
-    if (filtered.length === 0) {
-        library.innerHTML = `<div class="empty">No se encontraron títulos cargados.</div>`;
-        return;
-    }
-
-    library.innerHTML = "";
-    const fragment = document.createDocumentFragment();
-
-    filtered.forEach(item => {
-        const meta = getFileMeta(item.name, item.type);
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `
-            <div class="card-header">
-                <span class="file-icon">${meta.icon}</span>
-                <span class="file-name" title="${item.name}">${item.name}</span>
-            </div>
-            <div class="card-body">
-                <div class="file-info">
-                    <div><strong>Tipo:</strong> ${meta.label}</div>
-                    <div><strong>Peso:</strong> ${item.size}</div>
-                </div>
-                <div class="buttons">
-                    <button class="btn view-btn" onclick="viewFile('${item.id}')">Leer</button>
-                    <button class="btn download-btn" onclick="downloadFile('${item.id}')">Bajar</button>
-                    <button class="btn delete-btn" onclick="deleteFile('${item.id}')">🗑️</button>
-                </div>
-            </div>
-        `;
-        fragment.appendChild(card);
-    });
-    library.appendChild(fragment);
-}
-
-function downloadFile(id) {
-    const item = files.find(f => f.id === id);
-    if (!item) return;
-    const a = document.createElement("a");
-    a.href = item.url;
-    a.download = item.name;
-    a.click();
-}
-
-function viewFile(id) {
-    const item = files.find(f => f.id === id);
-    if (!item) return;
-
-    const container = document.getElementById("viewerContainer");
-    const modalTitle = document.getElementById("modalTitle");
-    container.innerHTML = "";
-    modalTitle.textContent = item.name;
-
-    const type = item.type;
-    const ext = item.name.split('.').pop().toLowerCase();
-
-    if (type.includes("pdf") || ext === 'pdf') {
-        container.innerHTML = `<iframe class="viewer" src="${item.url}"></iframe>`;
-    } else if (type.startsWith("image/")) {
-        container.innerHTML = `<img src="${item.url}" style="width:100%;height:100%;object-fit:contain;background:#0f172a;">`;
-    } else if (type.startsWith("video/")) {
-        container.innerHTML = `<video controls autoplay style="width:100%;height:100%;background:black;"><source src="${item.url}"></video>`;
-    } else if (type.includes("text") || ext === "txt") {
-        fetch(item.url).then(r => r.text()).then(text => {
-            container.innerHTML = `<div class="text-view">${escapeHtml(text)}</div>`;
-        });
-    } else {
-        container.innerHTML = `<div style="padding:50px; text-align:center; color:var(--text-muted);"><h2>Previsualización no disponible</h2><p style="margin-top:10px;">Por favor descárgalo para abrirlo externamente.</p></div>`;
-    }
-
-    document.getElementById("modal").style.display = "flex";
-}
-
-function closeViewer() {
-    document.getElementById("viewerContainer").innerHTML = "";
-    document.getElementById("modal").style.display = "none";
-}
-
-function escapeHtml(text) {
-    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-}
-
-window.onclick = function(e) {
-    const modal = document.getElementById("modal");
-    if (e.target === modal) closeViewer();
-}
-</script>
-
-</body>
-</html>
+        <li><a href="#workspace">Archivos Disponibles <span class="dropdown-arrow">
