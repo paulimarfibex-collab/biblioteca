@@ -1,25 +1,532 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biblioteca Digital Pro</title>
+
+<style>
+:root {
+    /* Paleta estricta Azul y Blanco */
+    --brand-blue: #1e40af;       
+    --brand-blue-hover: #1e3a8a; 
+    --primary: #3b82f6;          
+    --bg-main: #ffffff;          
+    --bg-section: #eff6ff;       
+    --bg-card: #ffffff;          
+    --text-main: #0f172a;        
+    --text-muted: #475569;       
+    --border: #bfdbfe;           
+    --success: #059669;
+    --danger: #dc2626;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+body {
+    background: var(--bg-main);
+    color: var(--text-main);
+    line-height: 1.5;
+}
+
+/* Sección 1: Barra de aviso superior */
+.top-notice {
+    background: var(--brand-blue);
+    color: #ffffff;
+    text-align: center;
+    padding: 10px 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid #1e3a8a;
+}
+
+/* Sección 2: Navegación */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 8%;
+    background: var(--bg-main);
+    border-bottom: 2px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--brand-blue);
+    text-decoration: none;
+    letter-spacing: -0.5px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 25px;
+    list-style: none;
+    align-items: center;
+}
+
+.nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.nav-links a:hover { color: var(--brand-blue); }
+
+.btn-blue {
+    background: var(--brand-blue);
+    color: white !important;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    box-shadow: 0 4px 6px -1px rgba(30, 64, 175, 0.2);
+}
+
+.btn-blue:hover {
+    background: var(--brand-blue-hover);
+    transform: translateY(-1px);
+}
+
+/* Sección 3: Hero (Fondo Blanco) */
+.hero {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    min-height: 65vh;
+    background: var(--bg-main);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-left {
+    padding: 60px 8% 80px 14%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 2;
+}
+
+.hero-tag {
+    color: var(--primary);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    display: inline-block;
+    padding: 4px 12px;
+    background: var(--bg-section);
+    border-radius: 20px;
+    width: max-content;
+}
+
+.hero-title {
+    font-size: 3.4rem;
+    font-weight: 800;
+    color: var(--text-main);
+    line-height: 1.15;
+    margin-bottom: 25px;
+    letter-spacing: -1px;
+}
+
+.hero-title span { color: var(--brand-blue); }
+
+.hero-desc {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 40px;
+    max-width: 520px;
+}
+
+.scroll-indicator {
+    margin-top: 30px;
+    width: 22px;
+    height: 36px;
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    position: relative;
+}
+.scroll-indicator::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 8px;
+    background: var(--primary);
+    border-radius: 20px;
+}
+
+.hero-right {
+    position: relative;
+    background-image: url('https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=1200');
+    background-size: cover;
+    background-position: center 20%;
+    filter: grayscale(40%) sepia(20%) hue-rotate(180deg);
+}
+
+.hero-right::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, #ffffff 0%, rgba(255, 255, 255, 0.9) 8%, rgba(255, 255, 255, 0) 45%);
+}
+
+/* Sección 4: Panel de Aplicación (Fondo Azul Claro) */
+.app-section {
+    background: var(--bg-section);
+    padding: 80px 0;
+    border-top: 2px solid var(--border);
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.section-header h2 {
+    color: var(--brand-blue);
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+/* Zona de Carga (Drag & Drop) */
+.upload-section {
+    background: var(--bg-card);
+    padding: 50px 30px;
+    border-radius: 16px;
+    margin-bottom: 40px;
+    box-shadow: 0 10px 25px rgba(30, 64, 175, 0.05);
+    border: 2px dashed var(--primary);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.upload-section.dragover {
+    border-color: var(--brand-blue);
+    background: #dbeafe;
+    transform: scale(1.01);
+}
+
+.upload-section h3 {
+    font-size: 1.5rem;
+    color: var(--brand-blue);
+    margin-bottom: 10px;
+}
+
+.upload-section p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    margin-bottom: 25px;
+}
+
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.btn-upload {
+    border: none;
+    background: var(--brand-blue);
+    color: white;
+    padding: 14px 32px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-upload:hover { background: var(--brand-blue-hover); }
+
+.upload-section input[type=file] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+/* Búsqueda y estadísticas */
+.controls-bar {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 30px;
+    background: var(--bg-card);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(30, 64, 175, 0.05);
+    border: 1px solid var(--border);
+}
+
+.search-wrapper { flex: 1; }
+
+.search {
+    width: 100%;
+    padding: 14px 18px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-size: 1rem;
+    background: var(--bg-main);
+    color: var(--text-main);
+    outline: none;
+    transition: all 0.2s;
+}
+
+.search:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.stats-counter {
+    background: var(--bg-section);
+    padding: 14px 24px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-weight: 700;
+    color: var(--brand-blue);
+}
+
+/* Grid de Documentos */
+.library {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.card {
+    background: var(--bg-card);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(30, 64, 175, 0.05);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(30, 64, 175, 0.15);
+    border-color: var(--primary);
+}
+
+.card-header {
+    padding: 20px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-main);
+    color: var(--brand-blue);
+}
+
+.file-icon { font-size: 1.5rem; }
+.file-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; }
+
+.card-body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+    background: #fafbfc;
+}
+
+.file-info {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+    background: var(--bg-main);
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.buttons { display: flex; gap: 10px; }
+
+.btn {
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    flex: 1;
+    text-align: center;
+    transition: all 0.2s;
+}
+
+.view-btn { background: var(--primary); color: white; }
+.view-btn:hover { background: var(--brand-blue); }
+.download-btn { background: #e0f2fe; color: var(--brand-blue); border: 1px solid var(--border); }
+.download-btn:hover { background: #bae6fd; }
+.delete-btn { background: #fee2e2; color: var(--danger); flex: none; width: 45px; border: 1px solid #fecaca; }
+.delete-btn:hover { background: #fca5a5; color: white; }
+
+/* Visor / Modal */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: var(--bg-card);
+    width: 90%;
+    max-width: 1000px;
+    height: 85vh;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+    border: 2px solid var(--border);
+}
+
+.modal-header {
+    padding: 20px 30px;
+    border-bottom: 2px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--brand-blue);
+    color: white;
+}
+
+.close { font-size: 28px; cursor: pointer; color: white; opacity: 0.8; }
+.close:hover { opacity: 1; color: #fca5a5; }
+
+.viewer-body { flex-grow: 1; background: var(--bg-section); }
+.viewer { width: 100%; height: 100%; border: none; }
+.text-view { padding: 30px; overflow: auto; height: 100%; white-space: pre-wrap; background: white; font-family: monospace; }
+
+.empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--brand-blue);
+    padding: 60px;
+    background: var(--bg-card);
+    border-radius: 12px;
+    border: 2px dashed var(--border);
+    font-weight: 600;
+}
+</style>
+</head>
+<body>
+
+<div class="top-notice">Sube y gestiona tus documentos interactivos en tiempo real con nuestra plataforma</div>
+
+<nav class="navbar">
+    <a href="#" class="logo">Biblioteca Digital</a>
+    <ul class="nav-links">
+        <li><a href="#workspace">Archivos Disponibles</a></li>
+        <li><a href="#workspace" class="btn-blue">Suscríbase</a></li>
+    </ul>
+</nav>
+
+<section class="hero">
+    <div class="hero-left">
+        <div class="hero-tag">Espacio Inteligente</div>
+        <h1 class="hero-title">Tu conocimiento, <br><span>ahora en la nube.</span></h1>
+        <p class="hero-desc">Organiza, visualiza y gestiona todos tus recursos académicos permanentes en una base de datos segura y de alta velocidad.</p>
+        <div class="scroll-indicator"></div>
+    </div>
+    <div class="hero-right"></div>
+</section>
+
+<section class="app-section" id="workspace">
+    <div class="container">  
+        <div class="section-header"><h2>Panel de Gestión Documental</h2></div>
+
+        <div class="upload-section" id="dropZone">
+            <h3>Subir Archivos a la Biblioteca</h3>
+            <p>Arrastra tus documentos académicos aquí o haz clic para localizarlos</p>
+            <div class="upload-btn-wrapper">
+                <button class="btn-upload">Seleccionar Archivos</button>
+                <input type="file" id="fileInput" multiple>
+            </div>
+        </div>
+
+        <div class="controls-bar">
+            <div class="search-wrapper">
+                <input type="text" id="search" class="search" placeholder="Buscar por títulos...">
+            </div>
+            <div id="statsCounter" class="stats-counter">Documentos: 0</div>
+        </div>
+
+        <div id="library" class="library">
+            <div class="empty">Conectando con la base de datos...</div>
+        </div>
+    </div>
+</section>
+
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <strong id="modalTitle">Vista Previa</strong>
+            <span class="close" onclick="closeViewer()">&times;</span>
+        </div>
+        <div class="viewer-body" id="viewerContainer"></div>
+    </div>
+</div>
+
 <script type="module">
-    // 1. Importar las herramientas de Firebase (Versión 10)
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
     import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
 
-    // 2. PEGA AQUÍ TU CONFIGURACIÓN DE FIREBASE (La que copiaste en el Paso 1)
+    // Tus credenciales exactas obtenidas de la consola
     const firebaseConfig = {
-        apiKey: "TU_API_KEY",
-        authDomain: "tu-proyecto.firebaseapp.com",
-        projectId: "tu-proyecto",
-        storageBucket: "tu-proyecto.appspot.com",
-        messagingSenderId: "TUS_NUMEROS",
-        appId: "TU_APP_ID"
+        apiKey: "AIzaSyBkF74-p363AwIIOX2mDiUdek-AAFOtVLc",
+        authDomain: "base-de-dato-dbb44.firebaseapp.com",
+        projectId: "base-de-dato-dbb44",
+        storageBucket: "base-de-dato-dbb44.firebasestorage.app",
+        messagingSenderId: "629399869339",
+        appId: "1:629399869339:web:6e563ba39b50d82d31333e",
+        measurementId: "G-SYVJZGD3Q5"
     };
 
-    // 3. Inicializar Firebase
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const storage = getStorage(app);
 
-    // --- TU LÓGICA DE INTERFAZ SE MANTIENE ---
     const fileInput = document.getElementById("fileInput");
     const dropZone = document.getElementById("dropZone");
     const library = document.getElementById("library");
@@ -27,68 +534,152 @@
     const statsCounter = document.getElementById("statsCounter");
     let files = [];
 
-    // 4. NUEVA LÓGICA DE SUBIDA (Storage + Base de datos)
     async function handleFiles(incomingFiles) {
-        // Mostramos un estado de "Subiendo..." al usuario
-        dropZone.querySelector('p').textContent = "Subiendo archivo, por favor espera...";
+        const statusText = dropZone.querySelector('p');
+        statusText.textContent = "Subiendo archivo a la nube, por favor espera...";
         
         for (let file of incomingFiles) {
-            // A) Crear una referencia en el Storage con el nombre del archivo
-            const storageRef = ref(storage, 'archivos/' + file.name);
-            
-            // B) Subir el archivo físico a Firebase Storage
-            await uploadBytes(storageRef, file);
-            
-            // C) Obtener el enlace URL permanente y público de ese archivo
-            const urlPermanente = await getDownloadURL(storageRef);
-            
-            // D) Guardar los datos en Firestore Database
-            await addDoc(collection(db, "documentos"), {
-                name: file.name,
-                size: (file.size / 1024).toFixed(2) + " KB",
-                type: file.type,
-                url: urlPermanente, // Guardamos la URL de la nube, no la local
-                fecha: Date.now()
-            });
+            try {
+                const uniqueName = Date.now() + "_" + file.name;
+                const storageRef = ref(storage, 'archivos/' + uniqueName);
+                await uploadBytes(storageRef, file);
+                const urlPermanente = await getDownloadURL(storageRef);
+                
+                await addDoc(collection(db, "documentos"), {
+                    name: file.name,
+                    storageName: uniqueName,
+                    size: (file.size / 1024).toFixed(2) + " KB",
+                    type: file.type,
+                    url: urlPermanente,
+                    fecha: Date.now()
+                });
+            } catch (error) {
+                console.error("Error al subir archivo:", error);
+                alert("Hubo un problema al subir: " + file.name);
+            }
         }
-        
-        dropZone.querySelector('p').textContent = "Arrastra tus documentos académicos aquí...";
+        statusText.textContent = "Arrastra tus documentos académicos aquí o haz clic para localizarlos";
     }
 
-    // 5. ESCUCHAR LA BASE DE DATOS EN TIEMPO REAL
-    // Reemplazamos el arreglo local por una conexión directa a Firestore
     onSnapshot(collection(db, "documentos"), (snapshot) => {
         files = [];
         snapshot.forEach((doc) => {
-            files.push({ id: doc.id, ...doc.data() }); // Guardamos el ID real de la base de datos
+            files.push({ id: doc.id, ...doc.data() });
         });
-        renderLibrary(); // Redibujamos la pantalla cada vez que hay un cambio en la nube
+        renderLibrary();
     });
 
-    // Eventos de arrastrar y soltar (se mantienen igual que los tuyos)
-    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
-    dropZone.addEventListener('dragleave', (e) => { e.preventDefault(); dropZone.classList.remove('dragover'); });
-    dropZone.addEventListener('drop', (e) => { e.preventDefault(); dropZone.classList.remove('dragover'); handleFiles(e.dataTransfer.files); });
-    fileInput.addEventListener("change", function() { handleFiles(this.files); this.value = ""; });
-    search.addEventListener("input", renderLibrary);
+    function getFileMeta(filename, type) {
+        const ext = filename.split('.').pop().toLowerCase();
+        if (type.includes("pdf") || ext === 'pdf') return { icon: "📘", label: "PDF Académico" };
+        if (type.startsWith("image/")) return { icon: "🖼️", label: "Imagen / Gráfico" };
+        if (type.startsWith("video/")) return { icon: "🎬", label: "Multimedia Video" };
+        if (type.includes("text") || ext === 'txt') return { icon: "📄", label: "Texto Plano" };
+        return { icon: "📁", label: "Documento General" };
+    }
 
-    // 6. ACTUALIZAR FUNCIÓN DE BORRADO
+    function renderLibrary() {
+        const term = search.value.toLowerCase();
+        const filtered = files.filter(f => f.name.toLowerCase().includes(term));
+
+        statsCounter.textContent = `Documentos: ${filtered.length}`;
+
+        if (filtered.length === 0) {
+            library.innerHTML = `<div class="empty">No se encontraron documentos en tu espacio.</div>`;
+            return;
+        }
+
+        library.innerHTML = "";
+        const fragment = document.createDocumentFragment();
+
+        filtered.forEach(item => {
+            const meta = getFileMeta(item.name, item.type);
+            const card = document.createElement("div");
+            card.className = "card";
+            card.innerHTML = `
+                <div class="card-header">
+                    <span class="file-icon">${meta.icon}</span>
+                    <span class="file-name" title="${item.name}">${item.name}</span>
+                </div>
+                <div class="card-body">
+                    <div class="file-info">
+                        <div><strong>Tipo:</strong> ${meta.label}</div>
+                        <div><strong>Peso:</strong> ${item.size}</div>
+                    </div>
+                    <div class="buttons">
+                        <button class="btn view-btn" onclick="viewFile('${item.id}')">Leer</button>
+                        <button class="btn download-btn" onclick="downloadFile('${item.id}')">Bajar</button>
+                        <button class="btn delete-btn" onclick="deleteFile('${item.id}')">🗑️</button>
+                    </div>
+                </div>
+            `;
+            fragment.appendChild(card);
+        });
+        library.appendChild(fragment);
+    }
+
+    // Funciones globales compartidas con el HTML
     window.deleteFile = async function(id) {
-        // Encontrar el archivo en nuestra lista
+        const item = files.find(f => f.id === id);
+        if (!item) return;
+        if(confirm(`¿Seguro que deseas eliminar permanentemente "${item.name}"?`)) {
+            const fileRef = ref(storage, 'archivos/' + (item.storageName || item.name));
+            try { await deleteObject(fileRef); } catch(e) { console.log("Archivo físico no encontrado o ya eliminado."); }
+            await deleteDoc(doc(db, "documentos", id));
+        }
+    };
+
+    window.downloadFile = function(id) {
+        const item = files.find(f => f.id === id);
+        if (!item) return;
+        const a = document.createElement("a");
+        a.href = item.url;
+        a.target = "_blank";
+        a.download = item.name;
+        a.click();
+    };
+
+    window.viewFile = function(id) {
         const item = files.find(f => f.id === id);
         if (!item) return;
 
-        // A) Borrar el archivo físico del Storage
-        const fileRef = ref(storage, 'archivos/' + item.name);
-        try {
-            await deleteObject(fileRef);
-        } catch(e) { console.log("El archivo físico ya no existía"); }
+        const container = document.getElementById("viewerContainer");
+        const modalTitle = document.getElementById("modalTitle");
+        container.innerHTML = "";
+        modalTitle.textContent = item.name;
 
-        // B) Borrar el registro de la Base de Datos
-        await deleteDoc(doc(db, "documentos", id));
+        const type = item.type;
+        const ext = item.name.split('.').pop().toLowerCase();
+
+        if (type.includes("pdf") || ext === 'pdf') {
+            container.innerHTML = `<iframe class="viewer" src="${item.url}"></iframe>`;
+        } else if (type.startsWith("image/")) {
+            container.innerHTML = `<img src="${item.url}" style="width:100%;height:100%;object-fit:contain;background:#eff6ff;">`;
+        } else if (type.startsWith("video/")) {
+            container.innerHTML = `<video controls autoplay style="width:100%;height:100%;background:black;"><source src="${item.url}"></video>`;
+        } else if (type.includes("text") || ext === "txt") {
+            fetch(item.url).then(r => r.text()).then(text => {
+                container.innerHTML = `<div class="text-view">${text.replace(/&/g, "&amp;").replace(/</g, "&lt;")}</div>`;
+            });
+        } else {
+            container.innerHTML = `<div style="padding:50px; text-align:center; color:var(--text-muted);"><h2>Previsualización no disponible</h2><p style="margin-top:10px;">Por favor descárgalo para abrirlo externamente.</p></div>`;
+        }
+        document.getElementById("modal").style.display = "flex";
     };
 
-    // (Aquí debes pegar tus funciones getFileMeta, renderLibrary, viewFile, downloadFile y closeViewer que ya tenías. 
-    // Solo asegúrate de agregar "window." antes de las funciones que usas en el HTML con onclick, por ejemplo: window.viewFile = function(id) {...} ya que al usar type="module" las funciones no son globales automáticamente).
+    window.closeViewer = function() {
+        document.getElementById("viewerContainer").innerHTML = "";
+        document.getElementById("modal").style.display = "none";
+    };
 
+    // Event Listeners de Interfaz
+    ['dragenter', 'dragover'].forEach(name => dropZone.addEventListener(name, (e) => { e.preventDefault(); dropZone.classList.add('dragover'); }));
+    ['dragleave', 'drop'].forEach(name => dropZone.addEventListener(name, (e) => { e.preventDefault(); dropZone.classList.remove('dragover'); }));
+    dropZone.addEventListener('drop', (e) => { handleFiles(e.dataTransfer.files); });
+    fileInput.addEventListener("change", function() { handleFiles(this.files); this.value = ""; });
+    search.addEventListener("input", renderLibrary);
+    window.onclick = function(e) { if (e.target === document.getElementById("modal")) closeViewer(); };
 </script>
+
+</body>
+</html>
