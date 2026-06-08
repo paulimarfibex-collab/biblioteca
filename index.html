@@ -1,1 +1,682 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>- Biblioteca Digital Pro</title>
 
+<style>
+:root {
+    --brand-burgundy: #881337;
+    --brand-burgundy-hover: #4c0519;
+    --primary: #2563eb;
+    --bg-main: #f8fafc;
+    --bg-card: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --success: #10b981;
+    --danger: #ef4444;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+body {
+    background: var(--bg-main);
+    color: var(--text-main);
+    line-height: 1.5;
+}
+
+/* Barra de aviso superior */
+.top-notice {
+    background: #7dd3fc;
+    color: #0369a1;
+    text-align: center;
+    padding: 8px 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* Navegación Estilo Premium */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 8%;
+    background: white;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--brand-burgundy);
+    text-decoration: none;
+    letter-spacing: -0.5px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 25px;
+    list-style: none;
+    align-items: center;
+}
+
+.nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.nav-links a:hover {
+    color: var(--text-main);
+}
+
+.nav-links .dropdown-arrow {
+    font-size: 0.75rem;
+    opacity: 0.7;
+}
+
+.btn-burgundy {
+    background: var(--brand-burgundy);
+    color: white !important;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-burgundy:hover {
+    background: var(--brand-burgundy-hover);
+}
+
+/* Héroe de la página (Landing Split Layout) */
+.hero {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    min-height: 75vh;
+    background: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-left {
+    padding: 60px 8% 80px 14%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 2;
+}
+
+.hero-tag {
+    color: #3b82f6;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+}
+
+.hero-title {
+    font-size: 3.4rem;
+    font-weight: 700;
+    color: #111827;
+    line-height: 1.15;
+    margin-bottom: 25px;
+    letter-spacing: -1px;
+}
+
+.hero-title span {
+    color: var(--brand-burgundy);
+}
+
+.hero-desc {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 40px;
+    max-width: 520px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.btn-outline {
+    background: transparent;
+    color: #2563eb;
+    border: 1px solid #cbd5e1;
+    padding: 14px 28px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.btn-outline:hover {
+    background: #f8fafc;
+}
+
+/* Indicador de scroll de ratón decorativo */
+.scroll-indicator {
+    margin-top: 50px;
+    width: 22px;
+    height: 36px;
+    border: 2px solid #cbd5e1;
+    border-radius: 20px;
+    position: relative;
+}
+.scroll-indicator::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 8px;
+    background: #cbd5e1;
+    border-radius: 20px;
+}
+
+/* Parte derecha del Héroe: Imagen con máscara de desvanecimiento hacia el blanco */
+.hero-right {
+    position: relative;
+    background-image: url('https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=1200');
+    background-size: cover;
+    background-position: center 20%;
+}
+
+.hero-right::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, #ffffff 0%, rgba(255, 255, 255, 0.9) 8%, rgba(255, 255, 255, 0) 45%);
+}
+
+/* Sección del Panel de Aplicación de la Biblioteca */
+.app-section {
+    background: var(--bg-main);
+    padding: 60px 0;
+    border-top: 1px solid var(--border);
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* Drag and Drop minimalista integrado */
+.upload-section {
+    background: var(--bg-card);
+    padding: 40px 30px;
+    border-radius: 16px;
+    margin-bottom: 35px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+    border: 2px dashed var(--border);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.upload-section.dragover {
+    border-color: var(--primary);
+    background: #eff6ff;
+}
+
+.upload-section h2 {
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+}
+
+.upload-section p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 20px;
+}
+
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+}
+
+.btn-upload {
+    border: none;
+    background: var(--text-main);
+    color: white;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-upload:hover {
+    background: #0f172a;
+}
+
+.upload-section input[type=file] {
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+/* Controles de búsqueda */
+.controls-bar {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.search-wrapper {
+    flex: 1;
+}
+
+.search {
+    width: 100%;
+    padding: 14px 18px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-size: 1rem;
+    background: var(--bg-card);
+    outline: none;
+    transition: border 0.2s;
+}
+
+.search:focus {
+    border-color: var(--primary);
+}
+
+.stats-counter {
+    background: var(--bg-card);
+    padding: 14px 22px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+/* Grid de Libros / Documentos */
+.library {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.card {
+    background: var(--bg-card);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    border: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.06);
+}
+
+.card-header {
+    padding: 18px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--border);
+    background: #fafafa;
+}
+
+.file-icon { font-size: 1.3rem; }
+.file-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; }
+
+.card-body {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.file-info {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 15px;
+}
+
+.buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.btn {
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.85rem;
+    flex: 1;
+    text-align: center;
+    transition: background 0.2s;
+}
+
+.view-btn { background: #eff6ff; color: var(--primary); }
+.view-btn:hover { background: #dbeafe; }
+.download-btn { background: #f0fdf4; color: var(--success); }
+.download-btn:hover { background: #dcfce7; }
+.delete-btn { background: #fef2f2; color: var(--danger); flex: none; width: 38px; }
+.delete-btn:hover { background: #fee2e2; }
+
+/* Modal Corporativo */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: var(--bg-card);
+    width: 90%;
+    max-width: 950px;
+    height: 80vh;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+}
+
+.modal-header {
+    padding: 15px 25px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close {
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-muted);
+}
+
+.close:hover { color: var(--danger); }
+
+.viewer-body { flex-grow: 1; background: #f1f5f9; }
+.viewer { width: 100%; height: 100%; border: none; }
+.text-view { padding: 25px; overflow: auto; height: 100%; white-space: pre-wrap; background: white; }
+
+.empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    color: var(--text-muted);
+    padding: 50px;
+}
+</style>
+</head>
+<body>
+
+<!-- Alerta Superior Descriptiva -->
+<div class="top-notice">
+    Sube y gestiona tus documentos interactivos en tiempo real
+</div>
+
+<!-- Menú Superior de Navegación -->
+<nav class="navbar">
+    <a href="#" class="logo">Biblioteca Digital</a>
+    <ul class="nav-links">
+        <li><a href="#">Archivos Disponibles <span class="dropdown-arrow">▼</span></a></li> 
+           
+        <li><a href="#">Ayuda <span class="dropdown-arrow">▼</span></a></li>
+        <li><a href="#workspace" class="btn-burgundy">Suscríbase</a></li>
+    </ul>
+</nav>
+  <!-- Filtros y estadísticas -->
+        <div class="controls-bar">
+            <div class="search-wrapper">
+                <input type="text" id="search" class="search" placeholder="Buscar títulos o documentos...">
+            </div>
+            <div id="statsCounter" class="stats-counter">Documentos: 0</div>
+        </div>
+
+<!-- Sección Principal Hero (Inspirada fielmente en la imagen) -->
+<section class="hero">
+    <div class="hero-left">
+        <div class="hero-tag">La mayor biblioteca digital</div>
+             <!-- Zona Carga (Drag & Drop Integrado) -->
+        <div class="upload-section" id="dropZone">
+            <h2>Subir Archivos a la Biblioteca</h2>
+            <p>Arrastra tus documentos académicos aquí o haz clic para localizarlos</p>
+            <div class="upload-btn-wrapper">
+                <button class="btn-upload">Seleccionar Archivos</button>
+                <input type="file" id="fileInput" multiple>
+            </div>
+        </div>
+        <div class="hero-buttons">
+            <a href="#workspace" class="btn-burgundy" style="padding: 14px 28px; text-decoration: none;">Suscríbase</a>            
+        </div>
+        <div class="scroll-indicator"></div>
+    </div>
+    <div class="hero-right"></div>
+</section>
+
+<!-- Panel de Aplicación (Código Operativo) -->
+<section class="app-section" id="workspace">
+    <div class="container">  
+      
+        <!-- Rejilla de Documentos -->
+        <div id="library" class="library">
+            <div class="empty">No hay documentos en el catálogo actual.</div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Visor Integrado -->
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <strong id="modalTitle">Vista Previa Documental</strong>
+            <span class="close" onclick="closeViewer()">&times;</span>
+        </div>
+        <div class="viewer-body" id="viewerContainer"></div>
+    </div>
+</div>
+
+<script>
+/* Toda la lógica funcional nativa original de prueba.html se conserva de forma robusta e intacta */
+const fileInput = document.getElementById("fileInput");
+const dropZone = document.getElementById("dropZone");
+const library = document.getElementById("library");
+const search = document.getElementById("search");
+const statsCounter = document.getElementById("statsCounter");
+
+let files = [];
+
+// Drag & Drop Handlers
+['dragenter', 'dragover'].forEach(eventName => {
+    dropZone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        dropZone.classList.add('dragover');
+    }, false);
+});
+
+['dragleave', 'drop'].forEach(eventName => {
+    dropZone.addEventListener(eventName, (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+    }, false);
+});
+
+dropZone.addEventListener('drop', (e) => {
+    handleFiles(e.dataTransfer.files);
+});
+
+fileInput.addEventListener("change", function() {
+    handleFiles(this.files);
+    this.value = "";
+});
+
+search.addEventListener("input", renderLibrary);
+
+function handleFiles(incomingFiles) {
+    [...incomingFiles].forEach(file => {
+        const url = URL.createObjectURL(file);
+        files.push({
+            id: Date.now() + Math.random().toString(36).substr(2, 5),
+            name: file.name,
+            size: (file.size / 1024).toFixed(2) + " KB",
+            type: file.type,
+            file: file,
+            url: url
+        });
+    });
+    renderLibrary();
+}
+
+function getFileMeta(filename, type) {
+    const ext = filename.split('.').pop().toLowerCase();
+    if (type.includes("pdf") || ext === 'pdf') return { icon: "📕", label: "PDF Académico" };
+    if (type.startsWith("image/")) return { icon: "🖼️", label: "Imagen / Gráfico" };
+    if (type.startsWith("video/")) return { icon: "🎬", label: "Multimedia Video" };
+    if (type.includes("text") || ext === 'txt') return { icon: "📄", label: "Texto Plano" };
+    return { icon: "📘", label: "Documento General" };
+}
+
+function deleteFile(id) {
+    const index = files.findIndex(f => f.id === id);
+    if (index !== -1) {
+        URL.revokeObjectURL(files[index].url);
+        files.splice(index, 1);
+        renderLibrary();
+    }
+}
+
+function renderLibrary() {
+    const term = search.value.toLowerCase();
+    const filtered = files.filter(f => f.name.toLowerCase().includes(term));
+
+    statsCounter.textContent = `Documentos: ${filtered.length}`;
+
+    if (filtered.length === 0) {
+        library.innerHTML = `<div class="empty">No se encontraron títulos cargados.</div>`;
+        return;
+    }
+
+    library.innerHTML = "";
+    const fragment = document.createDocumentFragment();
+
+    filtered.forEach(item => {
+        const meta = getFileMeta(item.name, item.type);
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+            <div class="card-header">
+                <span class="file-icon">${meta.icon}</span>
+                <span class="file-name" title="${item.name}">${item.name}</span>
+            </div>
+            <div class="card-body">
+                <div class="file-info">
+                    <div><strong>Tipo:</strong> ${meta.label}</div>
+                    <div><strong>Peso:</strong> ${item.size}</div>
+                </div>
+                <div class="buttons">
+                    <button class="btn view-btn" onclick="viewFile('${item.id}')">Leer</button>
+                    <button class="btn download-btn" onclick="downloadFile('${item.id}')">Bajar</button>
+                    <button class="btn delete-btn" onclick="deleteFile('${item.id}')">🗑️</button>
+                </div>
+            </div>
+        `;
+        fragment.appendChild(card);
+    });
+    library.appendChild(fragment);
+}
+
+function downloadFile(id) {
+    const item = files.find(f => f.id === id);
+    if (!item) return;
+    const a = document.createElement("a");
+    a.href = item.url;
+    a.download = item.name;
+    a.click();
+}
+
+function viewFile(id) {
+    const item = files.find(f => f.id === id);
+    if (!item) return;
+
+    const container = document.getElementById("viewerContainer");
+    const modalTitle = document.getElementById("modalTitle");
+    container.innerHTML = "";
+    modalTitle.textContent = item.name;
+
+    const type = item.type;
+    const ext = item.name.split('.').pop().toLowerCase();
+
+    if (type.includes("pdf") || ext === 'pdf') {
+        container.innerHTML = `<iframe class="viewer" src="${item.url}"></iframe>`;
+    } else if (type.startsWith("image/")) {
+        container.innerHTML = `<img src="${item.url}" style="width:100%;height:100%;object-fit:contain;background:#0f172a;">`;
+    } else if (type.startsWith("video/")) {
+        container.innerHTML = `<video controls autoplay style="width:100%;height:100%;background:black;"><source src="${item.url}"></video>`;
+    } else if (type.includes("text") || ext === "txt") {
+        fetch(item.url).then(r => r.text()).then(text => {
+            container.innerHTML = `<div class="text-view">${escapeHtml(text)}</div>`;
+        });
+    } else {
+        container.innerHTML = `<div style="padding:50px; text-align:center; color:var(--text-muted);"><h2>Previsualización no disponible</h2><p style="margin-top:10px;">Por favor descárgalo para abrirlo externamente.</p></div>`;
+    }
+
+    document.getElementById("modal").style.display = "flex";
+}
+
+function closeViewer() {
+    document.getElementById("viewerContainer").innerHTML = "";
+    document.getElementById("modal").style.display = "none";
+}
+
+function escapeHtml(text) {
+    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+
+window.onclick = function(e) {
+    const modal = document.getElementById("modal");
+    if (e.target === modal) closeViewer();
+}
+</script>
+
+</body>
+</html>
