@@ -3,628 +3,218 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>- Biblioteca Digital Pro</title>
+<title>Biblioteca Digital Pro - Panel Independiente</title>
 
 <style>
 :root {
-    /* Paleta estricta Azul y Blanco */
-    --brand-blue: #1e40af;       /* Azul profundo corporativo */
-    --brand-blue-hover: #1e3a8a; /* Azul más oscuro para hover */
-    --primary: #3b82f6;          /* Azul brillante primario */
-    --bg-main: #ffffff;          /* Fondo principal blanco */
-    --bg-section: #eff6ff;       /* Fondo azul muy claro para diferenciar secciones */
-    --bg-card: #ffffff;          /* Fondo de tarjetas blanco */
-    --text-main: #0f172a;        /* Texto oscuro casi negro/azul */
-    --text-muted: #475569;       /* Texto gris azulado */
-    --border: #bfdbfe;           /* Bordes en tono azul claro */
-    --success: #059669;
-    --danger: #dc2626;
+    --brand-burgundy: #881337;
+    --brand-burgundy-hover: #4c0519;
+    --primary: #2563eb;
+    --bg-main: #f1f5f9;
+    --bg-card: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --success: #10b981;
+    --danger: #ef4444;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-}
-
-body {
-    background: var(--bg-main);
-    color: var(--text-main);
-    line-height: 1.5;
-}
-
-/* Barra de aviso superior - Sección 1 */
-.top-notice {
-    background: var(--brand-blue);
-    color: #ffffff;
-    text-align: center;
-    padding: 10px 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    border-bottom: 1px solid #1e3a8a;
-}
-
-/* Navegación - Sección 2 */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 18px 8%;
-    background: var(--bg-main);
-    border-bottom: 2px solid var(--border);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-}
-
-.logo {
-    font-size: 1.8rem;
-    font-weight: 800;
-    color: var(--brand-blue);
-    text-decoration: none;
-    letter-spacing: -0.5px;
-}
-
-.nav-links {
-    display: flex;
-    gap: 25px;
-    list-style: none;
-    align-items: center;
-}
-
-.nav-links a {
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 0.95rem;
-    font-weight: 600;
-    transition: color 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-}
-
-.nav-links a:hover {
-    color: var(--brand-blue);
-}
-
-.nav-links .dropdown-arrow {
-    font-size: 0.75rem;
-    opacity: 0.7;
-}
-
-.btn-blue {
-    background: var(--brand-blue);
-    color: white !important;
-    padding: 10px 24px;
-    border-radius: 6px;
-    font-weight: 600;
-    border: none;
-    cursor: pointer;
-    transition: background 0.2s, transform 0.1s;
-    box-shadow: 0 4px 6px -1px rgba(30, 64, 175, 0.2);
-}
-
-.btn-blue:hover {
-    background: var(--brand-blue-hover);
-    transform: translateY(-1px);
-}
-
-/* Héroe de la página - Sección 3 (Fondo Blanco) */
-.hero {
-    display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    min-height: 70vh;
-    background: var(--bg-main);
-    position: relative;
-    overflow: hidden;
-}
-
-.hero-left {
-    padding: 60px 8% 80px 14%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    z-index: 2;
-}
-
-.hero-tag {
-    color: var(--primary);
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 20px;
-    display: inline-block;
-    padding: 4px 12px;
-    background: var(--bg-section);
-    border-radius: 20px;
-    width: max-content;
-}
-
-.hero-title {
-    font-size: 3.4rem;
-    font-weight: 800;
-    color: var(--text-main);
-    line-height: 1.15;
-    margin-bottom: 25px;
-    letter-spacing: -1px;
-}
-
-.hero-title span {
-    color: var(--brand-blue);
-}
-
-.hero-desc {
-    color: var(--text-muted);
-    font-size: 1.1rem;
-    line-height: 1.6;
-    margin-bottom: 40px;
-    max-width: 520px;
-}
-
-/* Indicador de scroll */
-.scroll-indicator {
-    margin-top: 50px;
-    width: 22px;
-    height: 36px;
-    border: 2px solid var(--border);
-    border-radius: 20px;
-    position: relative;
-}
-.scroll-indicator::before {
-    content: '';
-    position: absolute;
-    top: 6px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 4px;
-    height: 8px;
-    background: var(--primary);
-    border-radius: 20px;
-}
-
-/* Parte derecha del Héroe: Imagen en escala de azules/grises */
-.hero-right {
-    position: relative;
-    background-image: url('https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&q=80&w=1200');
-    background-size: cover;
-    background-position: center 20%;
-    filter: grayscale(40%) sepia(20%) hue-rotate(180deg); /* Tinte azulado a la imagen */
-}
-
-.hero-right::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to right, #ffffff 0%, rgba(255, 255, 255, 0.9) 8%, rgba(255, 255, 255, 0) 45%);
-}
-
-/* Sección del Panel de Aplicación - Sección 4 (Fondo Azul Claro) */
-.app-section {
-    background: var(--bg-section);
-    padding: 80px 0;
-    border-top: 2px solid var(--border);
-    box-shadow: inset 0 10px 15px -3px rgba(0, 0, 0, 0.03);
-}
-
-.container {
-    width: 90%;
-    max-width: 1200px;
-    margin: auto;
-}
-
-.section-header {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.section-header h2 {
-    color: var(--brand-blue);
-    font-size: 2rem;
-    font-weight: 800;
-}
-
-/* Zona de Carga (Drag & Drop) */
-.upload-section {
-    background: var(--bg-card);
-    padding: 50px 30px;
-    border-radius: 16px;
-    margin-bottom: 40px;
-    box-shadow: 0 10px 25px rgba(30, 64, 175, 0.05);
-    border: 2px dashed var(--primary);
-    text-align: center;
-    transition: all 0.3s ease;
-}
-
-.upload-section.dragover {
-    border-color: var(--brand-blue);
-    background: #dbeafe;
-    transform: scale(1.02);
-}
-
-.upload-section h3 {
-    font-size: 1.5rem;
-    color: var(--brand-blue);
-    margin-bottom: 10px;
-}
-
-.upload-section p {
-    color: var(--text-muted);
-    font-size: 1rem;
-    margin-bottom: 25px;
-}
-
-.upload-btn-wrapper {
-    position: relative;
-    overflow: hidden;
-    display: inline-block;
-}
-
-.btn-upload {
-    border: none;
-    background: var(--brand-blue);
-    color: white;
-    padding: 14px 32px;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 6px rgba(30, 64, 175, 0.3);
-}
-
-.btn-upload:hover {
-    background: var(--brand-blue-hover);
-    box-shadow: 0 6px 12px rgba(30, 64, 175, 0.4);
-}
-
-.upload-section input[type=file] {
-    position: absolute;
-    left: 0;
-    top: 0;
-    opacity: 0;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-}
-
-/* Controles de búsqueda y estadísticas */
-.controls-bar {
-    display: flex;
-    gap: 15px;
-    align-items: center;
-    margin-bottom: 30px;
-    background: var(--bg-card);
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(30, 64, 175, 0.05);
-    border: 1px solid var(--border);
-}
-
-.search-wrapper {
-    flex: 1;
-}
-
-.search {
-    width: 100%;
-    padding: 14px 18px;
-    border: 2px solid var(--border);
-    border-radius: 8px;
-    font-size: 1rem;
-    background: var(--bg-main);
-    color: var(--text-main);
-    outline: none;
-    transition: all 0.2s;
-}
-
-.search:focus {
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
-}
-
-.stats-counter {
-    background: var(--bg-section);
-    padding: 14px 24px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    font-weight: 700;
-    color: var(--brand-blue);
-}
-
-/* Grid de Libros / Documentos */
-.library {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 25px;
-}
-
-.card {
-    background: var(--bg-card);
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(30, 64, 175, 0.05);
-    border: 1px solid var(--border);
-    display: flex;
-    flex-direction: column;
-    transition: transform 0.25s, box-shadow 0.25s;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 25px rgba(30, 64, 175, 0.15);
-    border-color: var(--primary);
-}
-
-.card-header {
-    padding: 20px;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    border-bottom: 1px solid var(--border);
-    background: var(--bg-main);
-    color: var(--brand-blue);
-}
-
-.file-icon { font-size: 1.5rem; }
-.file-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; }
-
-.card-body {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex-grow: 1;
-    background: #fafbfc;
-}
-
-.file-info {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    margin-bottom: 20px;
-    background: var(--bg-main);
-    padding: 10px 15px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-}
-
-.buttons {
-    display: flex;
-    gap: 10px;
-}
-
-.btn {
-    border: none;
-    padding: 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 0.9rem;
-    flex: 1;
-    text-align: center;
-    transition: all 0.2s;
-}
-
-.view-btn { background: var(--primary); color: white; }
-.view-btn:hover { background: var(--brand-blue); }
-.download-btn { background: #e0f2fe; color: var(--brand-blue); border: 1px solid var(--border); }
-.download-btn:hover { background: #bae6fd; }
-.delete-btn { background: #fee2e2; color: var(--danger); flex: none; width: 45px; border: 1px solid #fecaca; }
-.delete-btn:hover { background: #fca5a5; color: white; }
-
-/* Modal Corporativo */
-.modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(15, 23, 42, 0.8); /* Fondo oscuro más opaco */
-    backdrop-filter: blur(5px);
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.modal-content {
-    background: var(--bg-card);
-    width: 90%;
-    max-width: 1000px;
-    height: 85vh;
-    border-radius: 12px;
-    overflow: hidden;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
-    border: 2px solid var(--border);
-}
-
-.modal-header {
-    padding: 20px 30px;
-    border-bottom: 2px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background: var(--brand-blue);
-    color: white;
-}
-
-.modal-header strong {
-    font-size: 1.1rem;
-    letter-spacing: 0.5px;
-}
-
-.close {
-    font-size: 28px;
-    cursor: pointer;
-    color: white;
-    opacity: 0.8;
-    transition: opacity 0.2s;
-}
-
-.close:hover { opacity: 1; color: #fca5a5; }
-
-.viewer-body { flex-grow: 1; background: var(--bg-section); }
-.viewer { width: 100%; height: 100%; border: none; }
-.text-view { padding: 30px; overflow: auto; height: 100%; white-space: pre-wrap; background: white; font-family: monospace; font-size: 1rem; color: var(--text-main); }
-
-.empty {
-    grid-column: 1 / -1;
-    text-align: center;
-    color: var(--brand-blue);
-    padding: 60px;
-    background: var(--bg-card);
-    border-radius: 12px;
-    border: 2px dashed var(--border);
-    font-weight: 600;
-    font-size: 1.1rem;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+body { background: var(--bg-main); color: var(--text-main); line-height: 1.5; min-height: 100vh; display: flex; flex-direction: column; }
+.top-notice { background: #7dd3fc; color: #0369a1; text-align: center; padding: 8px 20px; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.5px; }
+.navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: white; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+.logo { font-size: 1.5rem; font-weight: 700; color: var(--brand-burgundy); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+.user-profile { display: flex; align-items: center; gap: 10px; font-weight: 600; color: var(--text-main); }
+.avatar { width: 35px; height: 35px; background: var(--brand-burgundy); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+.dashboard-container { width: 95%; max-width: 1400px; margin: 30px auto; flex-grow: 1; display: flex; flex-direction: column; gap: 25px; }
+.top-panel { display: grid; grid-template-columns: 1fr 2fr; gap: 25px; align-items: stretch; }
+@media (max-width: 900px) { .top-panel { grid-template-columns: 1fr; } }
+.upload-section { background: var(--bg-card); padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 2px dashed #cbd5e1; text-align: center; transition: all 0.3s ease; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.upload-section.dragover { border-color: var(--primary); background: #eff6ff; transform: scale(1.02); }
+.upload-section h2 { font-size: 1.2rem; margin-bottom: 8px; color: var(--text-main); }
+.upload-section p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px; }
+.upload-btn-wrapper { position: relative; overflow: hidden; display: inline-block; }
+.btn-upload { border: none; background: var(--brand-burgundy); color: white; padding: 10px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+.upload-section input[type=file] { position: absolute; left: 0; top: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
+.controls-container { background: var(--bg-card); border-radius: 12px; padding: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: center; border: 1px solid var(--border); }
+.controls-header { margin-bottom: 20px; }
+.controls-header h2 { font-size: 1.4rem; color: var(--text-main); }
+.controls-bar { display: flex; gap: 15px; align-items: center; }
+.search-wrapper { flex: 1; }
+.search { width: 100%; padding: 14px 18px; border: 1px solid var(--border); border-radius: 8px; font-size: 1rem; background: var(--bg-main); outline: none; }
+.search:focus { border-color: var(--primary); background: white; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+.stats-counter { background: #f8fafc; padding: 14px 22px; border-radius: 8px; border: 1px solid var(--border); font-weight: 600; color: var(--brand-burgundy); white-space: nowrap; }
+.library-section { background: var(--bg-card); border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid var(--border); flex-grow: 1; }
+.library-header { font-size: 1.2rem; font-weight: 600; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border); }
+.library { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+.card { background: white; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; }
+.card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+.card-header { padding: 15px; font-weight: 600; display: flex; align-items: center; gap: 10px; background: #f8fafc; border-bottom: 1px solid var(--border); }
+.file-icon { font-size: 1.4rem; }
+.file-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; font-size: 0.95rem; }
+.card-body { padding: 15px; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1; }
+.file-info { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px; display: flex; justify-content: space-between; }
+.buttons { display: flex; gap: 8px; }
+.btn { border: none; padding: 8px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.85rem; flex: 1; text-align: center; }
+.view-btn { background: #eff6ff; color: var(--primary); }
+.delete-btn { background: #fef2f2; color: var(--danger); flex: none; width: 35px; }
+.empty { grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 60px 20px; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1; }
 </style>
 </head>
 <body>
 
-<div class="top-notice">
-    Sube y gestiona tus documentos interactivos en tiempo real con nuestra plataforma
-</div>
+<div class="top-notice">Gestor de Archivos Independiente - Sincronizado vía API con Google Drive</div>
 
 <nav class="navbar">
-    <a href="#" class="logo">Biblioteca Digital</a>
-    <ul class="nav-links">
-        <li><a href="#workspace">Archivos Disponibles <span class="dropdown-arrow">▼</span></a></li> 
-        <li><a href="#">Ayuda <span class="dropdown-arrow">▼</span></a></li>
-        <li><a href="#workspace" class="btn-blue">Suscríbase</a></li>
-    </ul>
+    <a href="#" class="logo">📚 Mi Biblioteca</a>
+    <div class="user-profile">
+        <span>Usuario Local</span>
+        <div class="avatar">UL</div>
+    </div>
 </nav>
 
-<section class="hero">
-    <div class="hero-left">
-        <div class="hero-tag">Espacio Inteligente</div>
-        <h1 class="hero-title">Tu conocimiento, <br><span>ahora en la nube.</span></h1>
-        <p class="hero-desc">Organiza, visualiza y gestiona todos tus recursos académicos y corporativos en un entorno seguro, rápido y diseñado para la máxima productividad.</p>
-        <div class="scroll-indicator"></div>
-    </div>
-    <div class="hero-right"></div>
-</section>
-
-<section class="app-section" id="workspace">
-    <div class="container">  
-        
-        <div class="section-header">
-            <h2>Panel de Gestión Documental</h2>
-        </div>
-
+<div class="dashboard-container">
+    <div class="top-panel">
         <div class="upload-section" id="dropZone">
-            <h3>Subir Archivos a la Biblioteca</h3>
-            <p>Arrastra tus documentos académicos aquí o haz clic para localizarlos en tu dispositivo</p>
+            <h2 id="uploadText">Subir Archivos</h2>
+            <p>Arrastra documentos aquí</p>
             <div class="upload-btn-wrapper">
-                <button class="btn-upload">Seleccionar Archivos</button>
+                <button class="btn-upload">Seleccionar</button>
                 <input type="file" id="fileInput" multiple>
             </div>
         </div>
 
-        <div class="controls-bar">
-            <div class="search-wrapper">
-                <input type="text" id="search" class="search" placeholder="Buscar por títulos, autores o tipo de documento...">
+        <div class="controls-container">
+            <div class="controls-header">
+                <h2>Búsqueda Rápida</h2>
             </div>
-            <div id="statsCounter" class="stats-counter">Documentos: 0</div>
+            <div class="controls-bar">
+                <div class="search-wrapper">
+                    <input type="text" id="search" class="search" placeholder="Buscar archivo por nombre...">
+                </div>
+                <div id="statsCounter" class="stats-counter">Conectando...</div>
+            </div>
         </div>
-
-        <div id="library" class="library">
-            <div class="empty">Tu espacio de trabajo está vacío. Sube tus primeros documentos arriba.</div>
-        </div>
-
     </div>
-</section>
 
-<div class="modal" id="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <strong id="modalTitle">Vista Previa Documental</strong>
-            <span class="close" onclick="closeViewer()">&times;</span>
+    <div class="library-section">
+        <div class="library-header"><span>Archivos en tu Base de Datos de Drive</span></div>
+        <div id="library" class="library">
+            <div class="empty">Cargando datos desde la API de Drive...</div>
         </div>
-        <div class="viewer-body" id="viewerContainer"></div>
     </div>
 </div>
 
 <script>
-/* Lógica funcional preservada */
+// ==========================================
+// CONFIGURACIÓN: COLOCA AQUÍ LA URL DE TU WEB APP DE APPS SCRIPT
+// ==========================================
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwPBWM9Nv2yHdFISpIoqLvEt5VG4xWl4OrxYLcltkOzf66_pNPhnj_wFivC8SDZpBxYCg/exec';
+
+let files = [];
+
 const fileInput = document.getElementById("fileInput");
 const dropZone = document.getElementById("dropZone");
 const library = document.getElementById("library");
 const search = document.getElementById("search");
 const statsCounter = document.getElementById("statsCounter");
+const uploadText = document.getElementById("uploadText");
 
-let files = [];
+// Función centralizada para llamar al Servidor de Apps Script sin problemas de CORS
+function llamarAPI(datos, callback) {
+    fetch(WEB_APP_URL, {
+        method: 'POST',
+        mode: 'cors',
+        body: JSON.stringify(datos) // Se envía como texto plano implícito para omitir preflight OPTIONS
+    })
+    .then(res => res.json())
+    .then(json => callback(json))
+    .catch(err => {
+        console.error("Error en API:", err);
+        alert("Error de conexión con el servidor de Google Drive.");
+    });
+}
 
-// Drag & Drop Handlers
-['dragenter', 'dragover'].forEach(eventName => {
-    dropZone.addEventListener(eventName, (e) => {
-        e.preventDefault();
-        dropZone.classList.add('dragover');
-    }, false);
-});
+// Inicializar: Cargar base de datos al abrir el HTML independiente
+window.onload = function() {
+    llamarAPI({ action: 'listar' }, function(respuesta) {
+        if (respuesta && respuesta.exito) {
+            files = respuesta.archivos;
+            renderLibrary();
+        } else {
+            statsCounter.textContent = "Error";
+            library.innerHTML = `<div class="empty">No se pudo autenticar o conectar con Drive.</div>`;
+        }
+    });
+};
 
-['dragleave', 'drop'].forEach(eventName => {
-    dropZone.addEventListener(eventName, (e) => {
-        e.preventDefault();
-        dropZone.classList.remove('dragover');
-    }, false);
-});
-
-dropZone.addEventListener('drop', (e) => {
-    handleFiles(e.dataTransfer.files);
-});
-
-fileInput.addEventListener("change", function() {
-    handleFiles(this.files);
-    this.value = "";
-});
-
+// Drag & Drop
+['dragenter', 'dragover'].forEach(eName => { dropZone.addEventListener(eName, (e) => { e.preventDefault(); dropZone.classList.add('dragover'); }); });
+['dragleave', 'drop'].forEach(eName => { dropZone.addEventListener(eName, (e) => { e.preventDefault(); dropZone.classList.remove('dragover'); }); });
+dropZone.addEventListener('drop', (e) => { handleFiles(e.dataTransfer.files); });
+fileInput.addEventListener("change", function() { handleFiles(this.files); this.value = ""; });
 search.addEventListener("input", renderLibrary);
 
 function handleFiles(incomingFiles) {
     [...incomingFiles].forEach(file => {
-        const url = URL.createObjectURL(file);
-        files.push({
-            id: Date.now() + Math.random().toString(36).substr(2, 5),
-            name: file.name,
-            size: (file.size / 1024).toFixed(2) + " KB",
-            type: file.type,
-            file: file,
-            url: url
-        });
+        uploadText.innerText = "Subiendo...";
+        
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const base64Data = e.target.result;
+            
+            llamarAPI({
+                action: 'subir',
+                base64Data: base64Data,
+                nombre: file.name,
+                tipoMime: file.type
+            }, function(respuesta) {
+                uploadText.innerText = "Subir Archivos";
+                if(respuesta && respuesta.exito) {
+                    files.unshift(respuesta.archivo);
+                    renderLibrary();
+                } else {
+                    alert("Error de subida: " + (respuesta.error || "Desconocido"));
+                }
+            });
+        };
+        reader.readAsDataURL(file);
     });
-    renderLibrary();
 }
 
 function getFileMeta(filename, type) {
     const ext = filename.split('.').pop().toLowerCase();
-    if (type.includes("pdf") || ext === 'pdf') return { icon: "📘", label: "PDF Académico" };
-    if (type.startsWith("image/")) return { icon: "🖼️", label: "Imagen / Gráfico" };
-    if (type.startsWith("video/")) return { icon: "🎬", label: "Multimedia Video" };
-    if (type.includes("text") || ext === 'txt') return { icon: "📄", label: "Texto Plano" };
-    return { icon: "📁", label: "Documento General" };
+    if (type.includes("pdf") || ext === 'pdf') return { icon: "📕", label: "PDF Académico" };
+    if (type.startsWith("image/")) return { icon: "🖼️", label: "Imagen" };
+    if (['doc','docx'].includes(ext)) return { icon: "📘", label: "Word" };
+    if (['xls','xlsx'].includes(ext)) return { icon: "🍏", label: "Excel" };
+    return { icon: "📁", label: "Documento" };
 }
 
 function deleteFile(id) {
-    const index = files.findIndex(f => f.id === id);
-    if (index !== -1) {
-        URL.revokeObjectURL(files[index].url);
-        files.splice(index, 1);
-        renderLibrary();
-    }
+    if(!confirm("¿Seguro que deseas enviar este archivo a la papelera de Drive?")) return;
+    
+    const backupFiles = [...files];
+    files = files.filter(f => f.id !== id);
+    renderLibrary();
+
+    llamarAPI({ action: 'eliminar', id: id }, function(respuesta) {
+        if(!respuesta || !respuesta.exito) {
+            alert("Error al eliminar en la nube.");
+            files = backupFiles;
+            renderLibrary();
+        }
+    });
 }
 
 function renderLibrary() {
     const term = search.value.toLowerCase();
     const filtered = files.filter(f => f.name.toLowerCase().includes(term));
 
-    statsCounter.textContent = `Documentos: ${filtered.length}`;
+    statsCounter.textContent = `Total: ${filtered.length}`;
 
     if (filtered.length === 0) {
-        library.innerHTML = `<div class="empty">No se encontraron documentos en tu espacio.</div>`;
+        library.innerHTML = `<div class="empty">No hay documentos en la base de datos de Drive.</div>`;
         return;
     }
 
@@ -642,12 +232,11 @@ function renderLibrary() {
             </div>
             <div class="card-body">
                 <div class="file-info">
-                    <div><strong>Tipo:</strong> ${meta.label}</div>
-                    <div><strong>Peso:</strong> ${item.size}</div>
+                    <span>${meta.label}</span>
+                    <span>${item.size}</span>
                 </div>
                 <div class="buttons">
-                    <button class="btn view-btn" onclick="viewFile('${item.id}')">Leer</button>
-                    <button class="btn download-btn" onclick="downloadFile('${item.id}')">Bajar</button>
+                    <button class="btn view-btn" onclick="window.open('${item.url}', '_blank')">Abrir en Drive ↗</button>
                     <button class="btn delete-btn" onclick="deleteFile('${item.id}')">🗑️</button>
                 </div>
             </div>
@@ -655,58 +244,6 @@ function renderLibrary() {
         fragment.appendChild(card);
     });
     library.appendChild(fragment);
-}
-
-function downloadFile(id) {
-    const item = files.find(f => f.id === id);
-    if (!item) return;
-    const a = document.createElement("a");
-    a.href = item.url;
-    a.download = item.name;
-    a.click();
-}
-
-function viewFile(id) {
-    const item = files.find(f => f.id === id);
-    if (!item) return;
-
-    const container = document.getElementById("viewerContainer");
-    const modalTitle = document.getElementById("modalTitle");
-    container.innerHTML = "";
-    modalTitle.textContent = item.name;
-
-    const type = item.type;
-    const ext = item.name.split('.').pop().toLowerCase();
-
-    if (type.includes("pdf") || ext === 'pdf') {
-        container.innerHTML = `<iframe class="viewer" src="${item.url}"></iframe>`;
-    } else if (type.startsWith("image/")) {
-        container.innerHTML = `<img src="${item.url}" style="width:100%;height:100%;object-fit:contain;background:#eff6ff;">`;
-    } else if (type.startsWith("video/")) {
-        container.innerHTML = `<video controls autoplay style="width:100%;height:100%;background:black;"><source src="${item.url}"></video>`;
-    } else if (type.includes("text") || ext === "txt") {
-        fetch(item.url).then(r => r.text()).then(text => {
-            container.innerHTML = `<div class="text-view">${escapeHtml(text)}</div>`;
-        });
-    } else {
-        container.innerHTML = `<div style="padding:50px; text-align:center; color:var(--text-muted);"><h2>Previsualización no disponible</h2><p style="margin-top:10px;">Por favor descárgalo para abrirlo externamente.</p></div>`;
-    }
-
-    document.getElementById("modal").style.display = "flex";
-}
-
-function closeViewer() {
-    document.getElementById("viewerContainer").innerHTML = "";
-    document.getElementById("modal").style.display = "none";
-}
-
-function escapeHtml(text) {
-    return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-}
-
-window.onclick = function(e) {
-    const modal = document.getElementById("modal");
-    if (e.target === modal) closeViewer();
 }
 </script>
 
