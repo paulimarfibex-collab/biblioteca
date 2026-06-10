@@ -1,13 +1,11 @@
-addEventListener('fetch', event => {
-  // Pega todo tu código HTML largo dentro de estas comillas invertidas ``
-  const html = `<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Biblioteca Digital Pro</title>
+<title>Biblioteca Digital Pro - Panel Independiente</title>
+
 <style>
-/* Aquí van tus estilos CSS originales */
 :root {
     --brand-burgundy: #881337;
     --brand-burgundy-hover: #4c0519;
@@ -20,6 +18,7 @@ addEventListener('fetch', event => {
     --success: #10b981;
     --danger: #ef4444;
 }
+
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
 body { background: var(--bg-main); color: var(--text-main); line-height: 1.5; min-height: 100vh; display: flex; flex-direction: column; }
 .top-notice { background: #7dd3fc; color: #0369a1; text-align: center; padding: 8px 20px; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.5px; }
@@ -60,48 +59,17 @@ body { background: var(--bg-main); color: var(--text-main); line-height: 1.5; mi
 .view-btn { background: #eff6ff; color: var(--primary); }
 .delete-btn { background: #fef2f2; color: var(--danger); flex: none; width: 35px; }
 .empty { grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 60px 20px; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1; }
-
-.login-screen { position: fixed; inset: 0; background: var(--bg-main); display: flex; justify-content: center; align-items: center; z-index: 1000; }
-.login-card { background: white; padding: 40px; border-radius: 12px; width: 100%; max-width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid var(--border); }
-.login-card h2 { font-size: 1.8rem; color: var(--brand-burgundy); margin-bottom: 10px; text-align: center; }
-.login-card p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 30px; text-align: center; }
-.form-group { margin-bottom: 20px; }
-.form-group label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 0.9rem; }
-.form-group input { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 6px; outline: none; font-size: 1rem; }
-.form-group input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
-.btn-login { width: 100%; padding: 14px; background: var(--brand-burgundy); color: white; border: none; border-radius: 6px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: background 0.2s; }
-.btn-login:hover { background: var(--brand-burgundy-hover); }
-.login-error { color: var(--danger); font-size: 0.85rem; text-align: center; margin-top: 15px; font-weight: 600; display: none; }
 </style>
 </head>
 <body>
-
-<div class="login-screen" id="loginScreen">
-    <div class="login-card">
-        <h2>🔒 Iniciar Sesión</h2>
-        <p>Ingrese sus credenciales de acceso al gestor</p>
-        <form id="loginForm" onsubmit="validarLogin(event)">
-            <div class="form-group">
-                <label for="user">Usuario</label>
-                <input type="text" id="user" required autocomplete="username">
-            </div>
-            <div class="form-group">
-                <label for="pass">Contraseña</label>
-                <input type="password" id="pass" required autocomplete="current-password">
-            </div>
-            <button type="submit" class="btn-login">Acceder</button>
-            <div class="login-error" id="loginError">Usuario o contraseña incorrectos.</div>
-        </form>
-    </div>
-</div>
 
 <div class="top-notice">Gestor de Archivos Independiente - Sincronizado vía API con Google Drive</div>
 
 <nav class="navbar">
     <a href="#" class="logo">📚 Mi Biblioteca</a>
     <div class="user-profile">
-        <span id="userNameDisplay">Usuario Administrador</span>
-        <div class="avatar">AD</div>
+        <span>Usuario Local</span>
+        <div class="avatar">UL</div>
     </div>
 </nav>
 
@@ -138,9 +106,10 @@ body { background: var(--bg-main); color: var(--text-main); line-height: 1.5; mi
 </div>
 
 <script>
-const USER_VALIDO = 'admin';  
-const PASS_VALIDO = '1234';   
-const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwUuCukXwqgQLnwboLxJIgYjsHWwhra6cRcCM6FMA8PLu0G0krhiDeicrokJFfnonw/exec';
+// ==========================================
+// CONFIGURACIÓN: COLOCA AQUÍ LA URL DE TU WEB APP DE APPS SCRIPT
+// ==========================================
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwPBWM9Nv2yHdFISpIoqLvEt5VG4xWl4OrxYLcltkOzf66_pNPhnj_wFivC8SDZpBxYCg/exec';
 
 let files = [];
 
@@ -151,39 +120,12 @@ const search = document.getElementById("search");
 const statsCounter = document.getElementById("statsCounter");
 const uploadText = document.getElementById("uploadText");
 
-function validarLogin(e) {
-    e.preventDefault();
-    const userIngresado = document.getElementById("user").value;
-    const passIngresado = document.getElementById("pass").value;
-    const errorMsg = document.getElementById("loginError");
-
-    if (userIngresado === USER_VALIDO && passIngresado === PASS_VALIDO) {
-        document.getElementById("loginScreen").style.display = 'none';
-        document.getElementById("userNameDisplay").textContent = userIngresado;
-        cargarBaseDatos();
-    } else {
-        errorMsg.style.display = 'block';
-        document.getElementById("pass").value = '';
-    }
-}
-
-function cargarBaseDatos() {
-    llamarAPI({ action: 'listar' }, function(respuesta) {
-        if (respuesta && respuesta.exito) {
-            files = respuesta.archivos;
-            renderLibrary();
-        } else {
-            statsCounter.textContent = "Error";
-            library.innerHTML = '<div class="empty">No se pudo autenticar o conectar con Drive.</div>';
-        }
-    });
-}
-
+// Función centralizada para llamar al Servidor de Apps Script sin problemas de CORS
 function llamarAPI(datos, callback) {
     fetch(WEB_APP_URL, {
         method: 'POST',
         mode: 'cors',
-        body: JSON.stringify(datos)
+        body: JSON.stringify(datos) // Se envía como texto plano implícito para omitir preflight OPTIONS
     })
     .then(res => res.json())
     .then(json => callback(json))
@@ -193,6 +135,20 @@ function llamarAPI(datos, callback) {
     });
 }
 
+// Inicializar: Cargar base de datos al abrir el HTML independiente
+window.onload = function() {
+    llamarAPI({ action: 'listar' }, function(respuesta) {
+        if (respuesta && respuesta.exito) {
+            files = respuesta.archivos;
+            renderLibrary();
+        } else {
+            statsCounter.textContent = "Error";
+            library.innerHTML = `<div class="empty">No se pudo autenticar o conectar con Drive.</div>`;
+        }
+    });
+};
+
+// Drag & Drop
 ['dragenter', 'dragover'].forEach(eName => { dropZone.addEventListener(eName, (e) => { e.preventDefault(); dropZone.classList.add('dragover'); }); });
 ['dragleave', 'drop'].forEach(eName => { dropZone.addEventListener(eName, (e) => { e.preventDefault(); dropZone.classList.remove('dragover'); }); });
 dropZone.addEventListener('drop', (e) => { handleFiles(e.dataTransfer.files); });
@@ -202,9 +158,11 @@ search.addEventListener("input", renderLibrary);
 function handleFiles(incomingFiles) {
     [...incomingFiles].forEach(file => {
         uploadText.innerText = "Subiendo...";
+        
         const reader = new FileReader();
         reader.onload = function(e) {
             const base64Data = e.target.result;
+            
             llamarAPI({
                 action: 'subir',
                 base64Data: base64Data,
@@ -235,6 +193,7 @@ function getFileMeta(filename, type) {
 
 function deleteFile(id) {
     if(!confirm("¿Seguro que deseas enviar este archivo a la papelera de Drive?")) return;
+    
     const backupFiles = [...files];
     files = files.filter(f => f.id !== id);
     renderLibrary();
@@ -252,10 +211,10 @@ function renderLibrary() {
     const term = search.value.toLowerCase();
     const filtered = files.filter(f => f.name.toLowerCase().includes(term));
 
-    statsCounter.textContent = \`Total: \${filtered.length}\`;
+    statsCounter.textContent = `Total: ${filtered.length}`;
 
     if (filtered.length === 0) {
-        library.innerHTML = '<div class="empty">No hay documentos en la base de datos de Drive.</div>';
+        library.innerHTML = `<div class="empty">No hay documentos en la base de datos de Drive.</div>`;
         return;
     }
 
@@ -266,22 +225,22 @@ function renderLibrary() {
         const meta = getFileMeta(item.name, item.type);
         const card = document.createElement("div");
         card.className = "card";
-        card.innerHTML = \`
+        card.innerHTML = `
             <div class="card-header">
-                <span class="file-icon">\${meta.icon}</span>
-                <span class="file-name" title="\${item.name}">\${item.name}</span>
+                <span class="file-icon">${meta.icon}</span>
+                <span class="file-name" title="${item.name}">${item.name}</span>
             </div>
             <div class="card-body">
                 <div class="file-info">
-                    <span>\${meta.label}</span>
-                    <span>\${item.size}</span>
+                    <span>${meta.label}</span>
+                    <span>${item.size}</span>
                 </div>
                 <div class="buttons">
-                    <button class="btn view-btn" onclick="window.open('\${item.url}', '_blank')">Abrir en Drive ↗</button>
-                    <button class="btn delete-btn" onclick="deleteFile('\${item.id}')">🗑️</button>
+                    <button class="btn view-btn" onclick="window.open('${item.url}', '_blank')">Abrir en Drive ↗</button>
+                    <button class="btn delete-btn" onclick="deleteFile('${item.id}')">🗑️</button>
                 </div>
             </div>
-        \`;
+        `;
         fragment.appendChild(card);
     });
     library.appendChild(fragment);
@@ -289,11 +248,5 @@ function renderLibrary() {
 </script>
 
 </body>
-</html>`;
-
-  event.respondWith(
-    new Response(html, {
-      headers: { 'content-type': 'text/html;charset=UTF-8' },
-    })
-  );
-});
+</html>
+               
