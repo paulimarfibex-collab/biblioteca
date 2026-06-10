@@ -160,7 +160,7 @@ function validarLogin(e) {
     e.preventDefault();
     const userIngresado = document.getElementById("user").value;
     const passIngresado = document.getElementById("pass").value;
-    const errorMsg = document.getElementById("loginError");
+    const errorMsg = document.getElementById("loginError"); const WEB_APP_URL = 'https://script.google.com/macros/s/.../exec';
 
     if (userIngresado === USER_VALIDO && passIngresado === PASS_VALIDO) {
         // Ocultar pantalla de login
@@ -302,90 +302,4 @@ function renderLibrary() {
 }
 </script>
 
-</body>
 </html>
-function doPost(e) {
-  try {
-    var jsonString = e.postData.contents;
-    var datos = JSON.parse(jsonString);
-    var sheetApp = SpreadsheetApp.getActiveSpreadsheet();
-    
-    // ACCIÓN: VALIDAR LOGIN
-    if (datos.action === 'login') {
-      var usuariosSheet = sheetApp.getSheetByName("Usuarios");
-      var dataUsuarios = usuariosSheet.getDataRange().getValues();
-      
-      for (var i = 1; i < dataUsuarios.length; i++) {
-        if (dataUsuarios[i][0] == datos.email && dataUsuarios[i][1] == datos.password) {
-          return ContentService.createTextOutput(JSON.stringify({
-            exito: true,
-            rol: dataUsuarios[i][2]
-          })).setMimeType(ContentService.MimeType.JSON);
-        }
-      }
-      return ContentService.createTextOutput(JSON.stringify({
-        exito: false, 
-        error: "Usuario o contraseña incorrectos"
-      })).setMimeType(ContentService.MimeType.JSON);
-    }
-
-    // ACCIÓN: LISTAR ARCHIVOS
-    if (datos.action === 'listar') {
-      var archivosSheet = sheetApp.getSheetByName("Archivos");
-      var dataArchivos = archivosSheet.getDataRange().getValues();
-      var archivos = [];
-      
-      for (var j = 1; j < dataArchivos.length; j++) {
-        archivos.push({
-          id: dataArchivos[j][0],
-          name: dataArchivos[j][1],
-          url: dataArchivos[j][2],
-          size: dataArchivos[j][3],
-          type: dataArchivos[j][4],
-          fecha: dataArchivos[j][5]
-        });
-      }
-      return ContentService.createTextOutput(JSON.stringify({exito: true, archivos: archivos})).setMimeType(ContentService.MimeType.JSON);
-    }
-
-    // ACCIÓN: SUBIR ARCHIVO
-    if (datos.action === 'subir') {
-      var folder = DriveApp.getFolderById("TU_ID_DE_CARPETA_DE_DRIVE"); // 1Qu4f5L7nwDLbMZV9x9J6Wm_96F8-0fEqUW2WdFtTa9E
-      var archivoBlob = Utilities.newBlob(Utilities.base64Decode(datos.base64Data.split(',')[1]), datos.tipoMime, datos.nombre);
-      var fileDrive = folder.createFile(archivoBlob);
-      fileDrive.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
-      
-      var archivosSheet = sheetApp.getSheetByName("Archivos");
-      var idUnico = Utilities.getUuid();
-      archivosSheet.appendRow([idUnico, datos.nombre, fileDrive.getUrl(), (archivoBlob.getBytes().length / 1024).toFixed(2) + " KB", datos.tipoMime, new Date().getTime()]);
-      
-      return ContentService.createTextOutput(JSON.stringify({
-        exito: true, 
-        archivo: {id: idUnico, name: datos.nombre, url: fileDrive.getUrl(), size: (archivoBlob.getBytes().length / 1024).toFixed(2) + " KB", type: datos.tipoMime}
-      })).setMimeType(ContentService.MimeType.JSON);
-    }
-
-    // ACCIÓN: ELIMINAR ARCHIVO
-    if(datos.action === 'eliminar') {
-      var archivosSheet = sheetApp.getSheetByName("Archivos");
-      var dataArchivos = archivosSheet.getDataRange().getValues();
-      
-      for(var k = 1; k < dataArchivos.length; k++) {
-        if(dataArchivos[k][0] == datos.id) {
-          try {
-            var fileId = dataArchivos[k][2].match(/[-\w]{25,}/); 
-            var archivoDrive = DriveApp.getFileById(fileId[0]);
-            archivoDrive.setTrashed(true);
-          } catch(e){}
-          
-          archivosSheet.deleteRow(k + 1);
-          return ContentService.createTextOutput(JSON.stringify({exito: true})).setMimeType(ContentService.MimeType.JSON);
-        }
-      }
-      return ContentService.createTextOutput(JSON.stringify({exito: false, error: "No encontrado"})).setMimeType(ContentService.MimeType.JSON);
-    }
-
-  } catch(error) {
-    return ContentService.createTextOutput(JSON.stringify({exito: false, error: error.toString()})).setMimeType(ContentService.MimeType.JSON);
-  }
-}
