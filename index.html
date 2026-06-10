@@ -1,11 +1,13 @@
-<!DOCTYPE html>
+addEventListener('fetch', event => {
+  // Pega todo tu código HTML largo dentro de estas comillas invertidas ``
+  const html = `<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Biblioteca Digital Pro - Panel Independiente</title>
-
+<title>Biblioteca Digital Pro</title>
 <style>
+/* Aquí van tus estilos CSS originales */
 :root {
     --brand-burgundy: #881337;
     --brand-burgundy-hover: #4c0519;
@@ -18,7 +20,6 @@
     --success: #10b981;
     --danger: #ef4444;
 }
-
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
 body { background: var(--bg-main); color: var(--text-main); line-height: 1.5; min-height: 100vh; display: flex; flex-direction: column; }
 .top-notice { background: #7dd3fc; color: #0369a1; text-align: center; padding: 8px 20px; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.5px; }
@@ -60,7 +61,6 @@ body { background: var(--bg-main); color: var(--text-main); line-height: 1.5; mi
 .delete-btn { background: #fef2f2; color: var(--danger); flex: none; width: 35px; }
 .empty { grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 60px 20px; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1; }
 
-/* Estilos de Login */
 .login-screen { position: fixed; inset: 0; background: var(--bg-main); display: flex; justify-content: center; align-items: center; z-index: 1000; }
 .login-card { background: white; padding: 40px; border-radius: 12px; width: 100%; max-width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid var(--border); }
 .login-card h2 { font-size: 1.8rem; color: var(--brand-burgundy); margin-bottom: 10px; text-align: center; }
@@ -138,13 +138,8 @@ body { background: var(--bg-main); color: var(--text-main); line-height: 1.5; mi
 </div>
 
 <script>
-// ==========================================
-// CONFIGURACIÓN: ACCESO Y API
-// ==========================================
 const USER_VALIDO = 'admin';  
 const PASS_VALIDO = '1234';   
-
-// URL actualizada desde tu despliegue de Apps Script
 const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwUuCukXwqgQLnwboLxJIgYjsHWwhra6cRcCM6FMA8PLu0G0krhiDeicrokJFfnonw/exec';
 
 let files = [];
@@ -156,7 +151,6 @@ const search = document.getElementById("search");
 const statsCounter = document.getElementById("statsCounter");
 const uploadText = document.getElementById("uploadText");
 
-// Función de validación de Login
 function validarLogin(e) {
     e.preventDefault();
     const userIngresado = document.getElementById("user").value;
@@ -173,7 +167,6 @@ function validarLogin(e) {
     }
 }
 
-// Carga de datos desde Drive
 function cargarBaseDatos() {
     llamarAPI({ action: 'listar' }, function(respuesta) {
         if (respuesta && respuesta.exito) {
@@ -181,12 +174,11 @@ function cargarBaseDatos() {
             renderLibrary();
         } else {
             statsCounter.textContent = "Error";
-            library.innerHTML = `<div class="empty">No se pudo autenticar o conectar con Drive.</div>`;
+            library.innerHTML = '<div class="empty">No se pudo autenticar o conectar con Drive.</div>';
         }
     });
 }
 
-// Función centralizada para llamar al Servidor de Apps Script
 function llamarAPI(datos, callback) {
     fetch(WEB_APP_URL, {
         method: 'POST',
@@ -201,7 +193,6 @@ function llamarAPI(datos, callback) {
     });
 }
 
-// Drag & Drop
 ['dragenter', 'dragover'].forEach(eName => { dropZone.addEventListener(eName, (e) => { e.preventDefault(); dropZone.classList.add('dragover'); }); });
 ['dragleave', 'drop'].forEach(eName => { dropZone.addEventListener(eName, (e) => { e.preventDefault(); dropZone.classList.remove('dragover'); }); });
 dropZone.addEventListener('drop', (e) => { handleFiles(e.dataTransfer.files); });
@@ -211,11 +202,9 @@ search.addEventListener("input", renderLibrary);
 function handleFiles(incomingFiles) {
     [...incomingFiles].forEach(file => {
         uploadText.innerText = "Subiendo...";
-        
         const reader = new FileReader();
         reader.onload = function(e) {
             const base64Data = e.target.result;
-            
             llamarAPI({
                 action: 'subir',
                 base64Data: base64Data,
@@ -246,7 +235,6 @@ function getFileMeta(filename, type) {
 
 function deleteFile(id) {
     if(!confirm("¿Seguro que deseas enviar este archivo a la papelera de Drive?")) return;
-    
     const backupFiles = [...files];
     files = files.filter(f => f.id !== id);
     renderLibrary();
@@ -264,10 +252,10 @@ function renderLibrary() {
     const term = search.value.toLowerCase();
     const filtered = files.filter(f => f.name.toLowerCase().includes(term));
 
-    statsCounter.textContent = `Total: ${filtered.length}`;
+    statsCounter.textContent = \`Total: \${filtered.length}\`;
 
     if (filtered.length === 0) {
-        library.innerHTML = `<div class="empty">No hay documentos en la base de datos de Drive.</div>`;
+        library.innerHTML = '<div class="empty">No hay documentos en la base de datos de Drive.</div>';
         return;
     }
 
@@ -278,22 +266,22 @@ function renderLibrary() {
         const meta = getFileMeta(item.name, item.type);
         const card = document.createElement("div");
         card.className = "card";
-        card.innerHTML = `
+        card.innerHTML = \`
             <div class="card-header">
-                <span class="file-icon">${meta.icon}</span>
-                <span class="file-name" title="${item.name}">${item.name}</span>
+                <span class="file-icon">\${meta.icon}</span>
+                <span class="file-name" title="\${item.name}">\${item.name}</span>
             </div>
             <div class="card-body">
                 <div class="file-info">
-                    <span>${meta.label}</span>
-                    <span>${item.size}</span>
+                    <span>\${meta.label}</span>
+                    <span>\${item.size}</span>
                 </div>
                 <div class="buttons">
-                    <button class="btn view-btn" onclick="window.open('${item.url}', '_blank')">Abrir en Drive ↗</button>
-                    <button class="btn delete-btn" onclick="deleteFile('${item.id}')">🗑️</button>
+                    <button class="btn view-btn" onclick="window.open('\${item.url}', '_blank')">Abrir en Drive ↗</button>
+                    <button class="btn delete-btn" onclick="deleteFile('\${item.id}')">🗑️</button>
                 </div>
             </div>
-        `;
+        \`;
         fragment.appendChild(card);
     });
     library.appendChild(fragment);
@@ -301,4 +289,11 @@ function renderLibrary() {
 </script>
 
 </body>
-</html>
+</html>`;
+
+  event.respondWith(
+    new Response(html, {
+      headers: { 'content-type': 'text/html;charset=UTF-8' },
+    })
+  );
+});
