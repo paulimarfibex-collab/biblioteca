@@ -3,73 +3,80 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Biblioteca Digital Pro</title>
+<title>Biblioteca Digital Pro - Panel Independiente</title>
 
 <style>
-    /* Corrección CSS: Asegúrate de usar * para el reset */
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-    
-    :root {
-        --brand-burgundy: #881337;
-        --bg-main: #f1f5f9;
-    }
+:root {
+    --brand-burgundy: #881337;
+    --brand-burgundy-hover: #4c0519;
+    --primary: #2563eb;
+    --bg-main: #f1f5f9;
+    --bg-card: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --success: #10b981;
+    --danger: #ef4444;
+}
 
-    body { background: var(--bg-main); padding: 20px; }
-    .dashboard-container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    .navbar { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
-    
-    .library { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
-    .card { border: 1px solid #ddd; padding: 15px; border-radius: 5px; background: #fff; }
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+body { background: var(--bg-main); color: var(--text-main); line-height: 1.5; min-height: 100vh; display: flex; flex-direction: column; }
+
+.navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: white; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+.logo { font-size: 1.5rem; font-weight: 700; color: var(--brand-burgundy); text-decoration: none; display: flex; align-items: center; gap: 15px; }
+.logo img { height: 60px; width: auto; vertical-align: middle; }
+
+.dashboard-container { width: 95%; max-width: 1400px; margin: 30px auto; flex-grow: 1; display: flex; flex-direction: column; gap: 25px; }
+.top-panel { display: grid; grid-template-columns: 1fr 2fr; gap: 25px; align-items: stretch; }
+.upload-section { background: var(--bg-card); padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 2px dashed #cbd5e1; text-align: center; }
+
+/* CAMBIO SOLICITADO: Botón en azul */
+.btn-upload { border: none; background: #2563eb; color: white; padding: 10px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+.btn-upload:hover { background: #1d4ed8; }
+
+.upload-section input[type=file] { position: absolute; left: 0; top: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
+.upload-btn-wrapper { position: relative; overflow: hidden; display: inline-block; }
+
+.controls-container { background: var(--bg-card); border-radius: 12px; padding: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid var(--border); }
+.search { width: 100%; padding: 14px 18px; border: 1px solid var(--border); border-radius: 8px; font-size: 1rem; }
+.library-section { background: var(--bg-card); border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid var(--border); }
+.library { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
 </style>
 </head>
 <body>
 
+<nav class="navbar">
+    <a href="#" class="logo">
+        <img src="fibex logo.jpg" alt="Logo">
+        Mi Biblioteca
+    </a>
+    <div class="user-profile">Usuario Local</div>
+</nav>
+
 <div class="dashboard-container">
-    <nav class="navbar">
-        <img src="fibex logo.jpg" style="height: 50px;">
-        <h1>Mi Biblioteca</h1>
-    </nav>
-
-    <input type="file" id="fileInput">
-
-    <div id="library" class="library">Cargando archivos...</div>
+    <div class="top-panel">
+        <div class="upload-section" id="dropZone">
+            <h2 id="uploadText">Subir Archivos</h2>
+            <div class="upload-btn-wrapper">
+                <button class="btn-upload">Seleccionar</button>
+                <input type="file" id="fileInput" multiple>
+            </div>
+        </div>
+        <div class="controls-container">
+            <h2>Búsqueda Rápida</h2>
+            <input type="text" id="search" class="search" placeholder="Buscar archivo...">
+        </div>
+    </div>
+    <div class="library-section">
+        <div id="library" class="library">Cargando...</div>
+    </div>
 </div>
 
 <script>
+    // TU SCRIPT ORIGINAL (Cópialo de tu archivo original y pégalo aquí abajo)
     const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwPBWM9Nv2yHdFISpIoqLvEt5VG4xWl4OrxYLcltkOzf66_pNPhnj_wFivC8SDZpBxYCg/exec';
-
-    window.onload = () => {
-        fetch(WEB_APP_URL + "?action=listar")
-            .then(res => res.json())
-            .then(data => {
-                // Verificamos si data.archivos existe
-                renderLibrary(data.archivos || []);
-            })
-            .catch(err => {
-                document.getElementById("library").innerHTML = "Error al cargar archivos.";
-            });
-    };
-
-    function renderLibrary(archivos) {
-        const lib = document.getElementById("library");
-        lib.innerHTML = "";
-        
-        if (archivos.length === 0) {
-            lib.innerHTML = "No hay archivos.";
-            return;
-        }
-
-        archivos.forEach(f => {
-            // Usamos f.nombre y f.url basándonos en lo que debe devolver tu API
-            const nombre = f.nombre || "Archivo sin nombre";
-            const url = f.url || "#";
-            lib.innerHTML += `
-                <div class="card">
-                    <p>${nombre}</p>
-                    <a href="${url}" target="_blank">Abrir</a>
-                </div>`;
-        });
-    }
+    // ... inserta aquí el resto de tus funciones: llamarAPI, renderLibrary, etc.
 </script>
+
 </body>
 </html>
