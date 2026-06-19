@@ -7,55 +7,47 @@
 <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
     body { background: #f1f5f9; padding: 20px; }
-    .container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 8px; }
-    .library { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 150px; margin-top: 80px; }
+    .container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .navbar { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+    .btn-upload { background: #2563eb; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; transition: 0.3s; }
+    .btn-upload:hover { background: #1d4ed8; }
+    .library { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
     .card { border: 1px solid #ddd; padding: 15px; border-radius: 5px; }
-    .btn-upload { background: #2563eb; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; }
 </style>
 </head>
 <body>
 <div class="container">
-    <h1>Mi Biblioteca</h1>
+    <nav class="navbar">
+        <img src="fibex logo.jpg" style="height: 50px;">
+        <h1>Mi Biblioteca</h1>
+    </nav>
     <button class="btn-upload" onclick="document.getElementById('fileInput').click()">Seleccionar</button>
     <input type="file" id="fileInput" style="display:none">
-    <div id="library" class="library">Cargando...</div>
+    <div id="library" class="library">Cargando archivos...</div>
 </div>
 
 <script>
     const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwPBWM9Nv2yHdFISpIoqLvEt5VG4xWl4OrxYLcltkOzf66_pNPhnj_wFivC8SDZpBxYCg/exec';
 
-    // Función segura para cargar
-    async function cargarArchivos() {
-        const lib = document.getElementById("library");
+    async function cargar() {
         try {
-            const response = await fetch(WEB_APP_URL + "?action=listar");
-            const data = await response.json();
-            
-            console.log("Respuesta completa:", data); // Mira esto en la consola F12
-            
+            const res = await fetch(WEB_APP_URL + "?action=listar");
+            const data = await res.json();
+            const lib = document.getElementById("library");
             lib.innerHTML = "";
-            const lista = data.archivos || [];
             
-            if (lista.length === 0) lib.innerHTML = "No hay archivos.";
-            
-            lista.forEach(f => {
-                // AQUÍ USAMOS TUS NOMBRES REALES O GENÉRICOS
-                const nombre = f.name || f.nombre || "Archivo";
-                const url = f.url || f.link || "#";
-                
-                lib.innerHTML += `
-                    <div class="card">
-                        <p>${nombre}</p>
-                        <a href="${url}" target="_blank">Abrir</a>
-                    </div>`;
-            });
+            if (data.archivos && data.archivos.length > 0) {
+                data.archivos.forEach(f => {
+                    lib.innerHTML += `<div class="card"><p>${f.nombre || "Archivo"}</p><a href="${f.url}" target="_blank">Abrir</a></div>`;
+                });
+            } else {
+                lib.innerHTML = "No hay archivos.";
+            }
         } catch (e) {
-            lib.innerHTML = "Error al conectar con Drive.";
-            console.error(e);
+            document.getElementById("library").innerHTML = "Error al conectar. Verifica tu script.";
         }
     }
-
-    window.onload = cargarArchivos;
+    window.onload = cargar;
 </script>
 </body>
 </html>
