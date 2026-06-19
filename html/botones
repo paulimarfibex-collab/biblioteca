@@ -1,0 +1,21 @@
+<style>
+    /* ... (aquí irán tus otras reglas de :root, body, etc.) ... */
+
+    /* Pega el código aquí */
+    .btn-upload { 
+        border: none; 
+        background-color: #2563eb; 
+        color: white; 
+        padding: 10px 24px; 
+        border-radius: 8px; 
+        font-weight: 600; 
+        cursor: pointer; 
+        transition: background 0.3s ease; 
+    }
+
+    .btn-upload:hover {
+        background-color: #1d4ed8; 
+    }
+
+    /* ... (el resto de tus estilos) ... */
+</style>
