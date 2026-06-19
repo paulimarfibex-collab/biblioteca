@@ -6,34 +6,20 @@
 <title>Biblioteca Digital Pro</title>
 
 <style>
-/* Reset necesario: siempre usa * y nunca • */
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    /* Corrección CSS: Asegúrate de usar * para el reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
+    
+    :root {
+        --brand-burgundy: #881337;
+        --bg-main: #f1f5f9;
+    }
 
-:root {
-    --brand-burgundy: #881337;
-    --primary: #2563eb;
-    --bg-main: #f1f5f9;
-}
-
-body { background: var(--bg-main); padding: 20px; }
-.dashboard-container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-.navbar { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
-
-/* Botón Azul */
-.btn-upload { 
-    border: none; 
-    background-color: #2563eb; 
-    color: white; 
-    padding: 10px 24px; 
-    border-radius: 8px; 
-    font-weight: 600; 
-    cursor: pointer; 
-    transition: background 0.3s ease; 
-}
-.btn-upload:hover { background-color: #1d4ed8; }
-
-.library { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
-.card { border: 1px solid #ddd; padding: 10px; border-radius: 5px; background: #fff; }
+    body { background: var(--bg-main); padding: 20px; }
+    .dashboard-container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .navbar { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+    
+    .library { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+    .card { border: 1px solid #ddd; padding: 15px; border-radius: 5px; background: #fff; }
 </style>
 </head>
 <body>
@@ -44,10 +30,7 @@ body { background: var(--bg-main); padding: 20px; }
         <h1>Mi Biblioteca</h1>
     </nav>
 
-    <div class="upload-section">
-        <button class="btn-upload" onclick="document.getElementById('fileInput').click()">Seleccionar</button>
-        <input type="file" id="fileInput" style="display:none">
-    </div>
+    <input type="file" id="fileInput">
 
     <div id="library" class="library">Cargando archivos...</div>
 </div>
@@ -58,31 +41,33 @@ body { background: var(--bg-main); padding: 20px; }
     window.onload = () => {
         fetch(WEB_APP_URL + "?action=listar")
             .then(res => res.json())
-            .then(data => renderLibrary(data.archivos));
-    };
-
-    document.getElementById("fileInput").onchange = function(e) {
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            fetch(WEB_APP_URL, {
-                method: "POST",
-                body: JSON.stringify({ action: "subir", nombre: file.name, data: event.target.result })
-            })
-            .then(res => res.json())
             .then(data => {
-                alert("Subido correctamente");
-                location.reload(); 
+                // Verificamos si data.archivos existe
+                renderLibrary(data.archivos || []);
+            })
+            .catch(err => {
+                document.getElementById("library").innerHTML = "Error al cargar archivos.";
             });
-        };
-        reader.readAsDataURL(file);
     };
 
     function renderLibrary(archivos) {
         const lib = document.getElementById("library");
         lib.innerHTML = "";
+        
+        if (archivos.length === 0) {
+            lib.innerHTML = "No hay archivos.";
+            return;
+        }
+
         archivos.forEach(f => {
-            lib.innerHTML += `<div class="card">${f.nombre} <br> <a href="${f.url}" target="_blank">Abrir</a></div>`;
+            // Usamos f.nombre y f.url basándonos en lo que debe devolver tu API
+            const nombre = f.nombre || "Archivo sin nombre";
+            const url = f.url || "#";
+            lib.innerHTML += `
+                <div class="card">
+                    <p>${nombre}</p>
+                    <a href="${url}" target="_blank">Abrir</a>
+                </div>`;
         });
     }
 </script>
