@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -21,550 +19,110 @@
     --danger: #ef4444;
 }
 
-/* CORRECCIÓN: Cambié el símbolo • por * */
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
-
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
 body { background: var(--bg-main); color: var(--text-main); line-height: 1.5; min-height: 100vh; display: flex; flex-direction: column; }
-
-.navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: white; border-bottom: 1px solid var(--border); }
-.logo { font-size: 1.5rem; font-weight: 700; color: var(--brand-burgundy); text-decoration: none; display: flex; align-items: center; gap: 15px; }
+.top-notice { background: #7dd3fc; color: #0369a1; text-align: center; padding: 8px 20px; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.5px; }
+.navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: white; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
+.logo { font-size: 1.5rem; font-weight: 700; color: var(--brand-burgundy); text-decoration: none; display: flex; align-items: center; gap: 10px; }
 .logo img { height: 50px; width: auto; }
-
+.user-profile { display: flex; align-items: center; gap: 10px; font-weight: 600; color: var(--text-main); }
+.avatar { width: 35px; height: 35px; background: var(--brand-burgundy); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
 .dashboard-container { width: 95%; max-width: 1400px; margin: 30px auto; flex-grow: 1; display: flex; flex-direction: column; gap: 25px; }
-.top-panel { display: grid; grid-template-columns: 1fr 2fr; gap: 25px; }
-.upload-section { background: var(--bg-card); padding: 30px; border-radius: 12px; border: 2px dashed #cbd5e1; text-align: center; }
-.controls-container { background: var(--bg-card); border-radius: 12px; padding: 30px; border: 1px solid var(--border); }
-.search { width: 100%; padding: 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 1rem; }
+.top-panel { display: grid; grid-template-columns: 1fr 2fr; gap: 25px; align-items: stretch; }
+@media (max-width: 900px) { .top-panel { grid-template-columns: 1fr; } }
+.upload-section { background: var(--bg-card); padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 2px dashed #cbd5e1; text-align: center; transition: all 0.3s ease; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.upload-section.dragover { border-color: var(--primary); background: #eff6ff; transform: scale(1.02); }
+.upload-section h2 { font-size: 1.2rem; margin-bottom: 8px; color: var(--text-main); }
+.btn-upload { border: none; background: var(--brand-burgundy); color: white; padding: 10px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+.upload-section input[type=file] { position: absolute; left: 0; top: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
+.search { width: 100%; padding: 14px 18px; border: 1px solid var(--border); border-radius: 8px; font-size: 1rem; background: var(--bg-main); outline: none; }
 .library { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
-.card { background: white; border-radius: 10px; border: 1px solid var(--border); padding: 15px; }
+.card { background: white; border-radius: 10px; border: 1px solid var(--border); display: flex; flex-direction: column; }
+.empty { grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 60px; }
 </style>
 </head>
 <body>
 
+<div class="top-notice">Gestor de Archivos Independiente - Sincronizado vía API con Google Drive</div>
 <nav class="navbar">
     <a href="#" class="logo">
         <img src="fibex logo.jpg" alt="Logo"> Mi Biblioteca
     </a>
-    <div class="user-profile">Usuario Local</div>
-</nav>
-
-<div class="dashboard-container">
-    <div class="top-panel">
-        <div class="upload-section" id="dropZone">
-            <h2>Subir Archivos</h2>
-            <input type="file" id="fileInput" multiple>
-        </div>
-        <div class="controls-container">
-            <h2>Búsqueda Rápida</h2>
-            <input type="text" id="search" class="search" placeholder="Buscar...">
-        </div>
-    </div>
-    <div class="library" id="library">
-        </div>
-</div>
-
-<script>
-   
-    <!DOCTYPE html>
-
-<html lang="es">
-
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Biblioteca Digital Pro - Panel Independiente</title>
-
-
-
-<style>
-
-:root {
-
-    --brand-burgundy: #881337;
-
-    --brand-burgundy-hover: #4c0519;
-
-    --primary: #2563eb;
-
-    --bg-main: #f1f5f9;
-
-    --bg-card: #ffffff;
-
-    --text-main: #1e293b;
-
-    --text-muted: #64748b;
-
-    --border: #e2e8f0;
-
-    --success: #10b981;
-
-    --danger: #ef4444;
-
-}
-
-
-
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
-
-body { background: var(--bg-main); color: var(--text-main); line-height: 1.5; min-height: 100vh; display: flex; flex-direction: column; }
-
-.top-notice { background: #7dd3fc; color: #0369a1; text-align: center; padding: 8px 20px; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.5px; }
-
-.navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: white; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
-
-.logo { font-size: 1.5rem; font-weight: 700; color: var(--brand-burgundy); text-decoration: none; display: flex; align-items: center; gap: 10px; }
-
-.user-profile { display: flex; align-items: center; gap: 10px; font-weight: 600; color: var(--text-main); }
-
-.avatar { width: 35px; height: 35px; background: var(--brand-burgundy); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
-
-.dashboard-container { width: 95%; max-width: 1400px; margin: 30px auto; flex-grow: 1; display: flex; flex-direction: column; gap: 25px; }
-
-.top-panel { display: grid; grid-template-columns: 1fr 2fr; gap: 25px; align-items: stretch; }
-
-@media (max-width: 900px) { .top-panel { grid-template-columns: 1fr; } }
-
-.upload-section { background: var(--bg-card); padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 2px dashed #cbd5e1; text-align: center; transition: all 0.3s ease; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-
-.upload-section.dragover { border-color: var(--primary); background: #eff6ff; transform: scale(1.02); }
-
-.upload-section h2 { font-size: 1.2rem; margin-bottom: 8px; color: var(--text-main); }
-
-.upload-section p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 15px; }
-
-.upload-btn-wrapper { position: relative; overflow: hidden; display: inline-block; }
-
-.btn-upload { border: none; background: var(--brand-burgundy); color: white; padding: 10px 24px; border-radius: 8px; font-weight: 600; cursor: pointer; }
-
-.upload-section input[type=file] { position: absolute; left: 0; top: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
-
-.controls-container { background: var(--bg-card); border-radius: 12px; padding: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: center; border: 1px solid var(--border); }
-
-.controls-header { margin-bottom: 20px; }
-
-.controls-header h2 { font-size: 1.4rem; color: var(--text-main); }
-
-.controls-bar { display: flex; gap: 15px; align-items: center; }
-
-.search-wrapper { flex: 1; }
-
-.search { width: 100%; padding: 14px 18px; border: 1px solid var(--border); border-radius: 8px; font-size: 1rem; background: var(--bg-main); outline: none; }
-
-.search:focus { border-color: var(--primary); background: white; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
-
-.stats-counter { background: #f8fafc; padding: 14px 22px; border-radius: 8px; border: 1px solid var(--border); font-weight: 600; color: var(--brand-burgundy); white-space: nowrap; }
-
-.library-section { background: var(--bg-card); border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border: 1px solid var(--border); flex-grow: 1; }
-
-.library-header { font-size: 1.2rem; font-weight: 600; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border); }
-
-.library { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
-
-.card { background: white; border-radius: 10px; overflow: hidden; border: 1px solid var(--border); display: flex; flex-direction: column; transition: transform 0.2s, box-shadow 0.2s; }
-
-.card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
-
-.card-header { padding: 15px; font-weight: 600; display: flex; align-items: center; gap: 10px; background: #f8fafc; border-bottom: 1px solid var(--border); }
-
-.file-icon { font-size: 1.4rem; }
-
-.file-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; width: 100%; font-size: 0.95rem; }
-
-.card-body { padding: 15px; display: flex; flex-direction: column; justify-content: space-between; flex-grow: 1; }
-
-.file-info { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px; display: flex; justify-content: space-between; }
-
-.buttons { display: flex; gap: 8px; }
-
-.btn { border: none; padding: 8px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 0.85rem; flex: 1; text-align: center; }
-
-.view-btn { background: #eff6ff; color: var(--primary); }
-
-.delete-btn { background: #fef2f2; color: var(--danger); flex: none; width: 35px; }
-
-.empty { grid-column: 1 / -1; text-align: center; color: var(--text-muted); padding: 60px 20px; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1; }
-
-</style>
-
-</head>
-
-<body>
-
-
-
-<div class="top-notice">Gestor de Archivos Independiente - Sincronizado vía API con Google Drive</div>
-
-
-
-<nav class="navbar">
-
-    <a href="#" class="logo">📚 Mi Biblioteca</a>
-
     <div class="user-profile">
-
         <span>Usuario Local</span>
-
         <div class="avatar">UL</div>
-
     </div>
-
 </nav>
 
-
-
 <div class="dashboard-container">
-
     <div class="top-panel">
-
         <div class="upload-section" id="dropZone">
-
             <h2 id="uploadText">Subir Archivos</h2>
-
             <p>Arrastra documentos aquí</p>
-
-            <div class="upload-btn-wrapper">
-
+            <div style="position: relative;">
                 <button class="btn-upload">Seleccionar</button>
-
                 <input type="file" id="fileInput" multiple>
-
             </div>
-
         </div>
-
-
-
-        <div class="controls-container">
-
-            <div class="controls-header">
-
-                <h2>Búsqueda Rápida</h2>
-
-            </div>
-
-            <div class="controls-bar">
-
-                <div class="search-wrapper">
-
-                    <input type="text" id="search" class="search" placeholder="Buscar archivo por nombre...">
-
-                </div>
-
-                <div id="statsCounter" class="stats-counter">Conectando...</div>
-
-            </div>
-
+        <div style="background: white; padding: 30px; border-radius: 12px; border: 1px solid #e2e8f0;">
+            <h2>Búsqueda Rápida</h2>
+            <input type="text" id="search" class="search" placeholder="Buscar archivo por nombre...">
+            <div id="statsCounter" style="margin-top: 15px; font-weight: 600;">Conectando...</div>
         </div>
-
     </div>
-
-
-
-    <div class="library-section">
-
-        <div class="library-header"><span>Archivos en tu Base de Datos de Drive</span></div>
-
-        <div id="library" class="library">
-
-            <div class="empty">Cargando datos desde la API de Drive...</div>
-
-        </div>
-
+    <div style="background: white; padding: 25px; border-radius: 12px; border: 1px solid #e2e8f0;">
+        <div id="library" class="library"><div class="empty">Cargando...</div></div>
     </div>
-
 </div>
 
-
-
 <script>
-
-// ==========================================
-
-// CONFIGURACIÓN: COLOCA AQUÍ LA URL DE TU WEB APP DE APPS SCRIPT
-
-// ==========================================
-
 const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwPBWM9Nv2yHdFISpIoqLvEt5VG4xWl4OrxYLcltkOzf66_pNPhnj_wFivC8SDZpBxYCg/exec';
-
-
-
 let files = [];
-
-
-
 const fileInput = document.getElementById("fileInput");
-
-const dropZone = document.getElementById("dropZone");
-
 const library = document.getElementById("library");
-
 const search = document.getElementById("search");
-
 const statsCounter = document.getElementById("statsCounter");
 
-const uploadText = document.getElementById("uploadText");
-
-
-
-// Función centralizada para llamar al Servidor de Apps Script sin problemas de CORS
-
 function llamarAPI(datos, callback) {
-
-    fetch(WEB_APP_URL, {
-
-        method: 'POST',
-
-        mode: 'cors',
-
-        body: JSON.stringify(datos) // Se envía como texto plano implícito para omitir preflight OPTIONS
-
-    })
-
-    .then(res => res.json())
-
-    .then(json => callback(json))
-
-    .catch(err => {
-
-        console.error("Error en API:", err);
-
-        alert("Error de conexión con el servidor de Google Drive.");
-
-    });
-
+    fetch(WEB_APP_URL, { method: 'POST', mode: 'cors', body: JSON.stringify(datos) })
+    .then(res => res.json()).then(json => callback(json)).catch(err => console.error(err));
 }
 
-
-
-// Inicializar: Cargar base de datos al abrir el HTML independiente
-
 window.onload = function() {
-
     llamarAPI({ action: 'listar' }, function(respuesta) {
-
         if (respuesta && respuesta.exito) {
-
             files = respuesta.archivos;
-
             renderLibrary();
-
-        } else {
-
-            statsCounter.textContent = "Error";
-
-            library.innerHTML = `<div class="empty">No se pudo autenticar o conectar con Drive.</div>`;
-
         }
-
     });
-
 };
 
-
-
-// Drag & Drop
-
-['dragenter', 'dragover'].forEach(eName => { dropZone.addEventListener(eName, (e) => { e.preventDefault(); dropZone.classList.add('dragover'); }); });
-
-['dragleave', 'drop'].forEach(eName => { dropZone.addEventListener(eName, (e) => { e.preventDefault(); dropZone.classList.remove('dragover'); }); });
-
-dropZone.addEventListener('drop', (e) => { handleFiles(e.dataTransfer.files); });
-
-fileInput.addEventListener("change", function() { handleFiles(this.files); this.value = ""; });
+fileInput.addEventListener("change", function() {
+    [...this.files].forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            llamarAPI({ action: 'subir', base64Data: e.target.result, nombre: file.name, tipoMime: file.type }, function(res) {
+                if(res.exito) { files.unshift(res.archivo); renderLibrary(); }
+            });
+        };
+        reader.readAsDataURL(file);
+    });
+});
 
 search.addEventListener("input", renderLibrary);
 
-
-
-function handleFiles(incomingFiles) {
-
-    [...incomingFiles].forEach(file => {
-
-        uploadText.innerText = "Subiendo...";
-
-        
-
-        const reader = new FileReader();
-
-        reader.onload = function(e) {
-
-            const base64Data = e.target.result;
-
-            
-
-            llamarAPI({
-
-                action: 'subir',
-
-                base64Data: base64Data,
-
-                nombre: file.name,
-
-                tipoMime: file.type
-
-            }, function(respuesta) {
-
-                uploadText.innerText = "Subir Archivos";
-
-                if(respuesta && respuesta.exito) {
-
-                    files.unshift(respuesta.archivo);
-
-                    renderLibrary();
-
-                } else {
-
-                    alert("Error de subida: " + (respuesta.error || "Desconocido"));
-
-                }
-
-            });
-
-        };
-
-        reader.readAsDataURL(file);
-
-    });
-
-}
-
-
-
-function getFileMeta(filename, type) {
-
-    const ext = filename.split('.').pop().toLowerCase();
-
-    if (type.includes("pdf") || ext === 'pdf') return { icon: "📕", label: "PDF Académico" };
-
-    if (type.startsWith("image/")) return { icon: "🖼️", label: "Imagen" };
-
-    if (['doc','docx'].includes(ext)) return { icon: "📘", label: "Word" };
-
-    if (['xls','xlsx'].includes(ext)) return { icon: "🍏", label: "Excel" };
-
-    return { icon: "📁", label: "Documento" };
-
-}
-
-
-
-function deleteFile(id) {
-
-    if(!confirm("¿Seguro que deseas enviar este archivo a la papelera de Drive?")) return;
-
-    
-
-    const backupFiles = [...files];
-
-    files = files.filter(f => f.id !== id);
-
-    renderLibrary();
-
-
-
-    llamarAPI({ action: 'eliminar', id: id }, function(respuesta) {
-
-        if(!respuesta || !respuesta.exito) {
-
-            alert("Error al eliminar en la nube.");
-
-            files = backupFiles;
-
-            renderLibrary();
-
-        }
-
-    });
-
-}
-
-
-
 function renderLibrary() {
-
     const term = search.value.toLowerCase();
-
     const filtered = files.filter(f => f.name.toLowerCase().includes(term));
-
-
-
     statsCounter.textContent = `Total: ${filtered.length}`;
-
-
-
-    if (filtered.length === 0) {
-
-        library.innerHTML = `<div class="empty">No hay documentos en la base de datos de Drive.</div>`;
-
-        return;
-
-    }
-
-
-
-    library.innerHTML = "";
-
-    const fragment = document.createDocumentFragment();
-
-
-
+    library.innerHTML = filtered.length === 0 ? `<div class="empty">No hay archivos.</div>` : "";
     filtered.forEach(item => {
-
-        const meta = getFileMeta(item.name, item.type);
-
-        const card = document.createElement("div");
-
-        card.className = "card";
-
-        card.innerHTML = `
-
-            <div class="card-header">
-
-                <span class="file-icon">${meta.icon}</span>
-
-                <span class="file-name" title="${item.name}">${item.name}</span>
-
-            </div>
-
-            <div class="card-body">
-
-                <div class="file-info">
-
-                    <span>${meta.label}</span>
-
-                    <span>${item.size}</span>
-
-                </div>
-
-                <div class="buttons">
-
-                    <button class="btn view-btn" onclick="window.open('${item.url}', '_blank')">Abrir en Drive ↗</button>
-
-                    <button class="btn delete-btn" onclick="deleteFile('${item.id}')">🗑️</button>
-
-                </div>
-
-            </div>
-
-        `;
-
-        fragment.appendChild(card);
-
+        const div = document.createElement("div");
+        div.className = "card";
+        div.innerHTML = `<div style="padding:15px;">${item.name}</div><div style="padding:15px;"><button onclick="window.open('${item.url}')">Abrir</button></div>`;
+        library.appendChild(div);
     });
-
-    library.appendChild(fragment);
-
 }
-
 </script>
-
-
-
-</html>
-</script>
-
 </body>
 </html>
