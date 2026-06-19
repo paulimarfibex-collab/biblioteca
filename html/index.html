@@ -6,37 +6,67 @@
 <title>Biblioteca Digital Pro</title>
 
 <style>
-    :root {
-        --brand-burgundy: #881337;
-        --primary: #2563eb;
-        --bg-main: #f1f5f9;
-        --text-main: #1e293b;
-        --border: #e2e8f0;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: sans-serif; }
-    body { background: var(--bg-main); color: var(--text-main); }
+:root {
+    --brand-burgundy: #881337;
+    --primary: #2563eb;
+    --bg-main: #f1f5f9;
+    --bg-card: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border: #e2e8f0;
+    --success: #10b981;
+    --danger: #ef4444;
+}
 
-    .navbar { 
-        display: flex; justify-content: space-between; align-items: center; 
-        padding: 15px 5%; background: white; border-bottom: 1px solid var(--border); 
-    }
-    .logo { 
-        display: flex; align-items: center; gap: 15px; 
-        font-size: 1.5rem; font-weight: 700; color: var(--brand-burgundy); 
-        text-decoration: none; 
-    }
-    .logo img { 
-        height: 60px; width: auto; 
-    }
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+body { background: var(--bg-main); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; }
+
+/* Navbar y Logo */
+.navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: white; border-bottom: 1px solid var(--border); }
+.logo { font-size: 1.5rem; font-weight: 700; color: var(--brand-burgundy); text-decoration: none; display: flex; align-items: center; gap: 15px; }
+.logo img { height: 60px; width: auto; vertical-align: middle; }
+
+/* Dashboard */
+.dashboard-container { width: 95%; max-width: 1400px; margin: 30px auto; flex-grow: 1; display: flex; flex-direction: column; gap: 25px; }
+.top-panel { display: grid; grid-template-columns: 1fr 2fr; gap: 25px; }
+.upload-section { background: white; padding: 30px; border-radius: 12px; border: 2px dashed #cbd5e1; text-align: center; }
+.controls-container { background: white; border-radius: 12px; padding: 30px; border: 1px solid var(--border); }
+.search { width: 100%; padding: 14px; border: 1px solid var(--border); border-radius: 8px; }
+.library-section { background: white; border-radius: 12px; padding: 25px; }
+.library { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
 </style>
 </head>
-
 <body>
-    <nav class="navbar">
-        <a href="#" class="logo">
-            <img src="fibex logo.jpg" alt="Logo">
-            Mi Biblioteca
-        </a>
-    </nav>
+
+<nav class="navbar">
+    <a href="#" class="logo">
+        <img src="fibex logo.jpg" alt="Logo">
+        Mi Biblioteca
+    </a>
+    <div class="user-profile">Usuario Local</div>
+</nav>
+
+<div class="dashboard-container">
+    <div class="top-panel">
+        <div class="upload-section" id="dropZone">
+            <h2>Subir Archivos</h2>
+            <input type="file" id="fileInput" multiple>
+        </div>
+        <div class="controls-container">
+            <h2>Búsqueda Rápida</h2>
+            <input type="text" id="search" class="search" placeholder="Buscar archivo...">
+        </div>
+    </div>
+    <div class="library-section">
+        <div id="library" class="library">Cargando...</div>
+    </div>
+</div>
+
+<script>
+    // Tu script original aquí
+    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwPBWM9Nv2yHdFISpIoqLvEt5VG4xWl4OrxYLcltkOzf66_pNPhnj_wFivC8SDZpBxYCg/exec';
+    // ... (restos de tus funciones: llamarAPI, handleFiles, renderLibrary, etc)
+</script>
+
 </body>
 </html>
