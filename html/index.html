@@ -1,16 +1,40 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Biblioteca Digital Pro</title>
-    <style>
-        /* Estilos base */
-        body { font-family: sans-serif; background: #f1f5f9; padding: 20px; }
-        .dashboard-container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .navbar { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
-        .library { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
-        .card { border: 1px solid #ddd; padding: 10px; border-radius: 5px; background: #fff; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biblioteca Digital Pro</title>
+
+<style>
+/* Reset necesario: siempre usa * y nunca • */
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+
+:root {
+    --brand-burgundy: #881337;
+    --primary: #2563eb;
+    --bg-main: #f1f5f9;
+}
+
+body { background: var(--bg-main); padding: 20px; }
+.dashboard-container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+.navbar { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+
+/* Botón Azul */
+.btn-upload { 
+    border: none; 
+    background-color: #2563eb; 
+    color: white; 
+    padding: 10px 24px; 
+    border-radius: 8px; 
+    font-weight: 600; 
+    cursor: pointer; 
+    transition: background 0.3s ease; 
+}
+.btn-upload:hover { background-color: #1d4ed8; }
+
+.library { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+.card { border: 1px solid #ddd; padding: 10px; border-radius: 5px; background: #fff; }
+</style>
 </head>
 <body>
 
@@ -21,24 +45,22 @@
     </nav>
 
     <div class="upload-section">
-        <input type="file" id="fileInput">
+        <button class="btn-upload" onclick="document.getElementById('fileInput').click()">Seleccionar</button>
+        <input type="file" id="fileInput" style="display:none">
     </div>
 
     <div id="library" class="library">Cargando archivos...</div>
 </div>
 
 <script>
-    // ESTA ES LA URL DE TU SCRIPT DE GOOGLE QUE GUARDARÁ LOS DATOS
     const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwPBWM9Nv2yHdFISpIoqLvEt5VG4xWl4OrxYLcltkOzf66_pNPhnj_wFivC8SDZpBxYCg/exec';
 
-    // 1. Cargar archivos al abrir la página
     window.onload = () => {
         fetch(WEB_APP_URL + "?action=listar")
             .then(res => res.json())
             .then(data => renderLibrary(data.archivos));
     };
 
-    // 2. Subir archivo
     document.getElementById("fileInput").onchange = function(e) {
         const file = e.target.files[0];
         const reader = new FileReader();
@@ -50,13 +72,12 @@
             .then(res => res.json())
             .then(data => {
                 alert("Subido correctamente");
-                location.reload(); // Refresca para mostrar el nuevo archivo guardado
+                location.reload(); 
             });
         };
         reader.readAsDataURL(file);
     };
 
-    // 3. Dibujar archivos
     function renderLibrary(archivos) {
         const lib = document.getElementById("library");
         lib.innerHTML = "";
@@ -67,4 +88,3 @@
 </script>
 </body>
 </html>
- 
