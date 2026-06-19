@@ -24,6 +24,8 @@ body { background: var(--bg-main); color: var(--text-main); line-height: 1.5; mi
 .top-notice { background: #7dd3fc; color: #0369a1; text-align: center; padding: 8px 20px; font-size: 0.85rem; font-weight: 600; letter-spacing: 0.5px; }
 .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: white; border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 10px rgba(0,0,0,0.02); }
 .logo { font-size: 1.5rem; font-weight: 700; color: var(--brand-burgundy); text-decoration: none; display: flex; align-items: center; gap: 10px; }
+/* Estilo para el logo */
+.logo img { height: 35px; width: auto; vertical-align: middle; }
 .user-profile { display: flex; align-items: center; gap: 10px; font-weight: 600; color: var(--text-main); }
 .avatar { width: 35px; height: 35px; background: var(--brand-burgundy); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
 .dashboard-container { width: 95%; max-width: 1400px; margin: 30px auto; flex-grow: 1; display: flex; flex-direction: column; gap: 25px; }
@@ -66,186 +68,12 @@ body { background: var(--bg-main); color: var(--text-main); line-height: 1.5; mi
 <div class="top-notice">Gestor de Archivos Independiente - Sincronizado vía API con Google Drive</div>
 
 <nav class="navbar">
-    <a href="#" class="logo">📚 Mi Biblioteca</a>
+    <a href="#" class="logo">
+        <img src="fibex.logo" alt="Logo">
+        Mi Biblioteca
+    </a>
     <div class="user-profile">
         <span>Usuario Local</span>
         <div class="avatar">UL</div>
     </div>
 </nav>
-
-<div class="dashboard-container">
-    <div class="top-panel">
-        <div class="upload-section" id="dropZone">
-            <h2 id="uploadText">Subir Archivos</h2>
-            <p>Arrastra documentos aquí</p>
-            <div class="upload-btn-wrapper">
-                <button class="btn-upload">Seleccionar</button>
-                <input type="file" id="fileInput" multiple>
-            </div>
-        </div>
-
-        <div class="controls-container">
-            <div class="controls-header">
-                <h2>Búsqueda Rápida</h2>
-            </div>
-            <div class="controls-bar">
-                <div class="search-wrapper">
-                    <input type="text" id="search" class="search" placeholder="Buscar archivo por nombre...">
-                </div>
-                <div id="statsCounter" class="stats-counter">Conectando...</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="library-section">
-        <div class="library-header"><span>Archivos en tu Base de Datos de Drive</span></div>
-        <div id="library" class="library">
-            <div class="empty">Cargando datos desde la API de Drive...</div>
-        </div>
-    </div>
-</div>
-
-<script>
-// ==========================================
-// CONFIGURACIÓN: COLOCA AQUÍ LA URL DE TU WEB APP DE APPS SCRIPT
-// ==========================================
-const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwPBWM9Nv2yHdFISpIoqLvEt5VG4xWl4OrxYLcltkOzf66_pNPhnj_wFivC8SDZpBxYCg/exec';
-
-let files = [];
-
-const fileInput = document.getElementById("fileInput");
-const dropZone = document.getElementById("dropZone");
-const library = document.getElementById("library");
-const search = document.getElementById("search");
-const statsCounter = document.getElementById("statsCounter");
-const uploadText = document.getElementById("uploadText");
-
-// Función centralizada para llamar al Servidor de Apps Script sin problemas de CORS
-function llamarAPI(datos, callback) {
-    fetch(WEB_APP_URL, {
-        method: 'POST',
-        mode: 'cors',
-        body: JSON.stringify(datos) // Se envía como texto plano implícito para omitir preflight OPTIONS
-    })
-    .then(res => res.json())
-    .then(json => callback(json))
-    .catch(err => {
-        console.error("Error en API:", err);
-        alert("Error de conexión con el servidor de Google Drive.");
-    });
-}
-
-// Inicializar: Cargar base de datos al abrir el HTML independiente
-window.onload = function() {
-    llamarAPI({ action: 'listar' }, function(respuesta) {
-        if (respuesta && respuesta.exito) {
-            files = respuesta.archivos;
-            renderLibrary();
-        } else {
-            statsCounter.textContent = "Error";
-            library.innerHTML = `<div class="empty">No se pudo autenticar o conectar con Drive.</div>`;
-        }
-    });
-};
-
-// Drag & Drop
-['dragenter', 'dragover'].forEach(eName => { dropZone.addEventListener(eName, (e) => { e.preventDefault(); dropZone.classList.add('dragover'); }); });
-['dragleave', 'drop'].forEach(eName => { dropZone.addEventListener(eName, (e) => { e.preventDefault(); dropZone.classList.remove('dragover'); }); });
-dropZone.addEventListener('drop', (e) => { handleFiles(e.dataTransfer.files); });
-fileInput.addEventListener("change", function() { handleFiles(this.files); this.value = ""; });
-search.addEventListener("input", renderLibrary);
-
-function handleFiles(incomingFiles) {
-    [...incomingFiles].forEach(file => {
-        uploadText.innerText = "Subiendo...";
-        
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const base64Data = e.target.result;
-            
-            llamarAPI({
-                action: 'subir',
-                base64Data: base64Data,
-                nombre: file.name,
-                tipoMime: file.type
-            }, function(respuesta) {
-                uploadText.innerText = "Subir Archivos";
-                if(respuesta && respuesta.exito) {
-                    files.unshift(respuesta.archivo);
-                    renderLibrary();
-                } else {
-                    alert("Error de subida: " + (respuesta.error || "Desconocido"));
-                }
-            });
-        };
-        reader.readAsDataURL(file);
-    });
-}
-
-function getFileMeta(filename, type) {
-    const ext = filename.split('.').pop().toLowerCase();
-    if (type.includes("pdf") || ext === 'pdf') return { icon: "📕", label: "PDF Académico" };
-    if (type.startsWith("image/")) return { icon: "🖼️", label: "Imagen" };
-    if (['doc','docx'].includes(ext)) return { icon: "📘", label: "Word" };
-    if (['xls','xlsx'].includes(ext)) return { icon: "🍏", label: "Excel" };
-    return { icon: "📁", label: "Documento" };
-}
-
-function deleteFile(id) {
-    if(!confirm("¿Seguro que deseas enviar este archivo a la papelera de Drive?")) return;
-    
-    const backupFiles = [...files];
-    files = files.filter(f => f.id !== id);
-    renderLibrary();
-
-    llamarAPI({ action: 'eliminar', id: id }, function(respuesta) {
-        if(!respuesta || !respuesta.exito) {
-            alert("Error al eliminar en la nube.");
-            files = backupFiles;
-            renderLibrary();
-        }
-    });
-}
-
-function renderLibrary() {
-    const term = search.value.toLowerCase();
-    const filtered = files.filter(f => f.name.toLowerCase().includes(term));
-
-    statsCounter.textContent = `Total: ${filtered.length}`;
-
-    if (filtered.length === 0) {
-        library.innerHTML = `<div class="empty">No hay documentos en la base de datos de Drive.</div>`;
-        return;
-    }
-
-    library.innerHTML = "";
-    const fragment = document.createDocumentFragment();
-
-    filtered.forEach(item => {
-        const meta = getFileMeta(item.name, item.type);
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `
-            <div class="card-header">
-                <span class="file-icon">${meta.icon}</span>
-                <span class="file-name" title="${item.name}">${item.name}</span>
-            </div>
-            <div class="card-body">
-                <div class="file-info">
-                    <span>${meta.label}</span>
-                    <span>${item.size}</span>
-                </div>
-                <div class="buttons">
-                    <button class="btn view-btn" onclick="window.open('${item.url}', '_blank')">Abrir en Drive ↗</button>
-                    <button class="btn delete-btn" onclick="deleteFile('${item.id}')">🗑️</button>
-                </div>
-            </div>
-        `;
-        fragment.appendChild(card);
-    });
-    library.appendChild(fragment);
-}
-</script>
-
-</html>
-               
